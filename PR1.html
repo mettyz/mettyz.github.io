@@ -1,0 +1,521 @@
+<!doctype html>
+<html>
+
+<head>
+
+  <title>
+    
+      Paper Reading Record 1 | MettyZ's Blog
+    
+  </title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/syntax.css">
+  <!-- Use Atom -->
+  <link type="application/atom+xml" rel="alternate" href="/feed.xml" title="MettyZ's Blog" />
+  <!-- Use RSS-2.0 -->
+  <!--<link href="/rss-feed.xml" type="application/rss+xml" rel="alternate" title="MettyZ's Blog | "/>
+  //-->
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quattrocento+Sans">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+  
+  
+	<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+     TeX: {
+         equationNumbers: {
+             autoNumber: "AMS"
+         }
+     },
+     tex2jax: {
+         inlineMath: [ ['$','$'] ],
+         displayMath: [ ['$$','$$'] ],
+         processEscapes: true,
+     }
+ });
+ </script>
+ <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+ </script>
+  
+  <!-- Google Analytics -->
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+  <!-- Use Jekyll SEO plugin -->
+  <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Paper Reading Record 1 | MettyZ’s Blog</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Paper Reading Record 1" />
+<meta name="author" content="mettyz" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="CVPR2020, Weakly supervised, State information…" />
+<meta property="og:description" content="CVPR2020, Weakly supervised, State information…" />
+<meta property="og:site_name" content="MettyZ’s Blog" />
+<meta property="og:image" content="/PR1.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-07-18T00:00:00+08:00" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"/PR1.html"},"author":{"@type":"Person","name":"mettyz"},"url":"/PR1.html","headline":"Paper Reading Record 1","dateModified":"2020-07-18T00:00:00+08:00","datePublished":"2020-07-18T00:00:00+08:00","description":"CVPR2020, Weakly supervised, State information…","image":"/PR1.png","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+</head>
+
+
+<body>
+
+  <div class="container">
+    <header class="masthead">
+  <h3 class="masthead-title">
+    <a href="/">MettyZ's Blog</a>
+    <small class="masthead-subtitle"></small>
+    <div class="menu">
+  <nav class="menu-content">
+    
+      <a href="/menu/about.html">About</a>
+    
+      <a href="/menu/writing.html">Writing</a>
+    
+      <a href="/menu/contact.html">Contact</a>
+    
+  </nav>
+  <nav class="social-icons">
+    
+  
+  
+    <a href="https://www.github.com/mettyz" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="mailto:1243049625@qq.com" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="/feed.xml"><i class="fa fa-rss-square" aria-hidden="true"></i></a>
+  
+
+  </nav>
+</div>
+
+  </h3>
+</header>
+
+
+    <div class="post-container">
+      <h1>
+  Paper Reading Record 1
+</h1>
+
+
+  <img src="/assets/img/PR1.png">
+
+
+<p>(CVPR2020) <a href="https://openaccess.thecvf.com/content_CVPR_2020/papers/Yu_Weakly_Supervised_Discriminative_Feature_Learning_With_State_Information_for_Person_CVPR_2020_paper.pdf">[Paper]</a></p>
+
+<!--more-->
+
+<blockquote>
+  <p>写在前面：文中包含个人理解，不保证正确，如理解有误，欢迎指正。</p>
+</blockquote>
+
+<h2 id="main-idea">Main Idea</h2>
+
+<p>利用状态信息作为弱监督信号，来学习能够区分人身份的特征</p>
+
+<p>旨在处理由不同状态带来的视觉差异对模型的影响</p>
+
+<p>利用WFDR将较强烈的特征畸变变得温和，利用WDBR矫正较温和的特征畸变</p>
+
+<h2 id="keywords">Keywords</h2>
+
+<ul>
+  <li>
+    <p>State Information：e.g. camera views, poses</p>
+
+    <blockquote>
+      <p>论文中所利用的状态信息，是指那些<strong>无需额外人工标记</strong>的，在数据集收集过程中就自带的状态标签，如拍摄的机位编号，拍摄的角度等</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>WDBR: Weakly supervised decision boundary rectification 【弱监督的决策边界矫正】</p>
+  </li>
+  <li>
+    <p>WFDR: Weakly supervised feature drift regularization 【弱监督的特征偏移正则化】</p>
+  </li>
+  <li>
+    <p>MPI: Maximum Predominance Index 【最大优势指数】</p>
+  </li>
+  <li>
+    <p>visual discrepancy，feature distortion</p>
+  </li>
+  <li>
+    <p>pseudo class = surrogate class</p>
+  </li>
+</ul>
+
+<h2 id="methods">Methods</h2>
+
+<h3 id="pseudo-label-model">Pseudo label model</h3>
+
+<ul>
+  <li>
+    <p>指论文采用的<strong>训练策略</strong>，采用了聚类的思想</p>
+  </li>
+  <li>
+    <p><strong>基本思路</strong></p>
+
+    <p>初始设置 $K$ 个伪类，$K&gt;$ 最大类别数，极端假设下，可以假设每张图像属于一个伪类</p>
+
+    <blockquote>
+      <p>例：对于RE-ID，最大类别数即为数据集中不同人的数目，伪类的含义为身份id</p>
+    </blockquote>
+
+    <p>通过WDBR调整边界，有些伪类可能收缩到一个点，相当于被作废</p>
+
+    <p>通过极小化分类损失训练模型，直观意义上，就是让样本尽可能靠近它被分到的伪类中心</p>
+
+    <blockquote>
+      <p>拉近类内距离，拉远类间距离，提升特征空间的模块化程度</p>
+    </blockquote>
+
+    <p><img src="/assets/img/PR1_pic/image-20200719112833305.png" alt="image-20200719112833305" style="zoom: 80%;" /></p>
+
+    <p><br /></p>
+  </li>
+  <li>
+    <p><strong>训练目标</strong>：特征提取器 $f$ ，用于提取可以区分身份的特征</p>
+
+    <blockquote>
+      <p>利用模型将图像映射到状态空间中，同一身份的样本应该相互靠近</p>
+
+      <p>进一步可利用聚类算法分类</p>
+    </blockquote>
+
+    <p><br /></p>
+  </li>
+  <li>
+    <p><strong>符号说明</strong></p>
+
+    <p>$u_i$ ：一个无标签的图像样本，训练集中共有 $N$ 个样本</p>
+
+    <p>$x$ ：特征空间中的向量表示</p>
+
+    <p>$\theta$：模型 $f$ 的参数</p>
+
+    <p>$s_i\in{1,\dots,J}$ ：样本 $i$ 的状态信息取值，有 $J$  种</p>
+
+    <p>$\mu$ ：伪类分类器，即聚类中心</p>
+
+    <blockquote>
+      <p>$x^T\mu_j$ 衡量了特征向量 $x$ 与聚类中心 $\mu_j$ 的相似程度，可看作将 $x$ 分到伪类 $j$ 的得分</p>
+    </blockquote>
+
+    <p><br /></p>
+  </li>
+</ul>
+
+<h3 id="wdbr">WDBR</h3>
+
+<ul>
+  <li>
+    <p>在<strong>较温和</strong>的视觉差异的影响下，特征空间中，无标签样本可能稍微偏离正确的区域，到附近区域中</p>
+  </li>
+  <li>
+    <p>解决思路：通过调整决策边界，使无标签样本能够落在正确区域内</p>
+
+    <p><img src="/assets/img/PR1_pic/WDBR.png" style="zoom: 50%;" /></p>
+
+    <p><br /></p>
+  </li>
+  <li>
+    <p><strong>定义MPI</strong> (最大优势指数)</p>
+
+    <p>用于量化一个伪类受某种状态支配的程度</p>
+
+    <blockquote>
+      <p>MPI越大，说明这些样本之所以被归为这一类，很可能是因为受到了这个状态的影响，而这个状态本身不是我们期望模型用于分类的特征</p>
+    </blockquote>
+
+    <p><br /></p>
+
+    <p>具体定义为<strong>伪类中具有支配状态的样本的占比</strong>，形式化如下</p>
+
+    <p><img src="/assets/img/PR1_pic/MPI.png" style="zoom:67%;" /></p>
+
+    <p>其中，分母表示当前伪类k中样本个数，分子表示在某一状态上取值相同的最大子集</p>
+
+    <blockquote>
+      <p>分子 = $max_j$ (伪类k中状态取值为 $j$ 的样本个数)</p>
+    </blockquote>
+
+    <p><br /></p>
+  </li>
+  <li>
+    <p><strong>矫正策略</strong></p>
+
+    <p>利用下述分类公式，可<strong>将 MPI 值超过阈值的伪类收缩</strong>，甚至作废</p>
+
+    <blockquote>
+      <p>$a$ 可视作<strong>矫正力度</strong>，$b$ 可视作<strong>矫正阈值</strong></p>
+    </blockquote>
+
+    <p>可以看到，在hard设定下，超过阈值的伪类 $p(k)=0$，此时不会有样本被分到该类，即实现了将该类作废</p>
+
+    <p><img src="/assets/img/PR1_pic/image-20200717084810814.png" style="zoom: 67%;" /> <img src="/assets/img/PR1_pic/image-20200717085548489.png" style="zoom: 45%;" /></p>
+  </li>
+  <li>
+    <p><strong>小结</strong></p>
+
+    <ul>
+      <li>
+        <p>WDBR 训练模型倾向于扩大 MPI 值较小的伪类的作用域</p>
+      </li>
+      <li>
+        <p>MPI 值较小，意味着这个伪类当中的样本在各个状态上的分布较为均衡，也就意味着它们被分在一起不是因为受到这些状态信息的影响</p>
+      </li>
+      <li>
+        <p>如此训练出的模型将倾向于提取对状态信息不敏感的特征</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="wfdr">WFDR</h3>
+
+<ul>
+  <li>
+    <p>当视觉差异影响<strong>较严重</strong>时，样本可能会严重偏离正确区域</p>
+
+    <p>此时，若想使用WDBR，需要先将特征畸变变得温和 (significant $\to$ moderate)</p>
+  </li>
+  <li>
+    <p>解决思路</p>
+
+    <p>受某种状态影响导致的特征畸变通常遵循一个特定的模式（如照明不足将抑制所有视觉特征），这会导致特征空间中，处于该状态的样本向同一个方向偏移</p>
+
+    <p>因此，我们可以在全局尺度上捕获这种偏移，然后把它“拉回来”</p>
+
+    <p><img src="/assets/img/PR1_pic/WFDR.png" style="zoom: 50%;" /></p>
+
+    <p><br /></p>
+  </li>
+  <li>
+    <p><strong>如何捕获？</strong></p>
+
+    <p>捕捉状态子分布  ( state sub-distribution ) 与全局样本特征分布之间的偏差</p>
+
+    <p>假设 $P(Q_j)$  为状态取值为 $j$ 的样本的分布情况，$P(X)$ 为所有样本的分布情况，</p>
+
+    <p>畸变将导致 $P(Q_j)$ 偏离 $P(X)$</p>
+
+    <p><br /></p>
+  </li>
+  <li>
+    <p><strong>矫正策略</strong></p>
+
+    <p>拉近两分布的距离，对应损失函数如下：</p>
+
+    <p><img src="/assets/img/PR1_pic/image-20200717095414630.png" style="zoom:67%;" /></p>
+
+    <p><img src="/assets/img/PR1_pic/image-20200717095435308.png" style="zoom:67%;" /></p>
+  </li>
+  <li>
+    <p><strong>小结</strong></p>
+
+    <ul>
+      <li>
+        <p>可以看出，损失函数对两个分布之间的距离进行惩罚，并调整参数 $\theta$</p>
+
+        <blockquote>
+          <p>$\theta$ 是目标特征提取器的参数</p>
+        </blockquote>
+      </li>
+      <li>
+        <p>直观上，这将使模型在提取特征向量时，减少对状态的关注，即尽量不让这个状态影响到特征向量的分布</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="loss-function">Loss Function</h3>
+
+<p><img src="/assets/img/PR1_pic/image-20200719113120576.png" alt="image-20200719113120576" style="zoom:80%;" /></p>
+
+<p><br /></p>
+
+<h2 id="experiments">Experiments</h2>
+
+<ul>
+  <li>
+    <p><strong>Tasks</strong>：person re-identification (<strong>RE-ID</strong>) and pose-invariant face recognition (<strong>PIFR</strong>)</p>
+
+    <blockquote>
+      <p>RE-ID：将不同镜头下拍摄到的人进行身份匹配，对应状态信息：相机标签</p>
+
+      <p>PIFR：将不同姿势的人脸进行匹配，对应状态信息：姿势（不同角度/正侧面）</p>
+    </blockquote>
+
+    <p><img src="/assets/img/PR1_pic/image-20200719115228806.png" style="zoom:67%;" /></p>
+
+    <p><br /></p>
+  </li>
+  <li>
+    <p>消蚀实验等验证模型有效性与准确性的实验不再赘述，先说<strong>结论</strong>：</p>
+    <ul>
+      <li>
+        <p>动态调整聚类中心、WDBR、WFDR均有效</p>
+      </li>
+      <li>
+        <p>WDBR 与 WFDR 的能力能够互为补充</p>
+      </li>
+      <li>
+        <p>对样本不平衡的数据集，WDBR 的 hard 矫正可能更加有效，而对于平衡的数据集，soft 矫正能够体现出优势</p>
+
+        <blockquote>
+          <p>平衡：数据集中每个人有多少张照片是固定的</p>
+        </blockquote>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<ul>
+  <li>
+    <p>分析一些实验现象</p>
+
+    <p><img src="/assets/img/PR1_pic/image-20200719115725587.png" alt="image-20200719115725587" style="zoom: 70%;" /></p>
+
+    <ul>
+      <li>
+        <p><strong>在 Multi-PIE 中，WFDR没有起到很大作用</strong></p>
+
+        <p>可能原因：在 Multi-PIE 中，人脸角度变化是连续的，因此特征本就没有很大的偏移</p>
+
+        <p><br /></p>
+      </li>
+      <li>
+        <p><strong>soft 矫正在 PIFR 任务上表现较好，而 hard 矫正在 RE-ID 任务上表现较好</strong></p>
+
+        <p>可能原因：RE-ID 数据集中，不同身份的人的图像数量不均衡</p>
+
+        <p><strong>soft 矫正器</strong> 的权重变化是一个连续的过程，它将更倾向于状态均衡程度高的伪类，因此机位照片多的人将更可能获得大权重，这是不公平的</p>
+
+        <blockquote>
+          <p>如果一个人只有2个机位的照片，则他的 MPI 值至少是 1/2，而有6个机位照片的人，MPI 值最小是 1/6，因此能够获得更大的 $p(k)$</p>
+        </blockquote>
+
+        <p><strong>hard 矫正器</strong> 是一个阶跃函数，仅仅使具有很高 MPI 值的伪类失效，对状态均衡的<strong>程度</strong>没有偏好</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="my-thoughts">My Thoughts</h2>
+
+<ol>
+  <li>
+    <p>状态信息的寻找与利用依靠人工设计，有没有可能让网络自己衡量特征对任务的帮助程度？</p>
+
+    <blockquote>
+      <p>在浅层网络中，特征向量的每一个维度可能对应着某一种状态属性</p>
+
+      <p>随着网络的加深，每个维度则可能编码着多种状态的综合属性</p>
+
+      <p>如果修改一个特征，能够让一组样本发生整体的偏移，而样本之间的相对距离变化不大，是否能够说明这个特征是某种对区分样本帮助不大的状态特征？</p>
+    </blockquote>
+  </li>
+  <li>
+    <p><strong>训练集中的人和测试集中的人没有重合</strong></p>
+
+    <blockquote>
+      <p>很关键，这样一来能够测试出模型学习到的特征是否是关注于”区分”，而非提取这个人本身的特征</p>
+    </blockquote>
+  </li>
+</ol>
+
+
+
+<span class="post-date">
+  Written on
+  
+  July
+  18th,
+  2020
+  by
+  
+    mettyz
+  
+</span>
+
+<!-- <div class="post-date">Feel free to share!</div>
+  <div class="sharing-icons">
+    <a href="https://twitter.com/intent/tweet?text=Paper Reading Record 1&amp;url=/PR1.html" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=/PR1.html&amp;title=Paper Reading Record 1" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=/PR1.html" target="_blank"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
+  </div>
+</div>
+ -->
+
+<!--<div class="related">
+  <h1 >You may also enjoy:</h1>
+  
+  <ul class="related-posts">
+    
+  </ul>
+</div>
+ -->
+
+
+
+    </div>
+
+    <footer class="footer">
+  
+  
+  
+    <a href="https://www.github.com/mettyz" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="mailto:1243049625@qq.com" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="/feed.xml"><i class="fa fa-rss-square" aria-hidden="true"></i></a>
+  
+
+  <div class="post-date"><a href="/menu/about.html">MettyZ's Blog | Seize the day</a></div>
+</footer>
+
+  </div>
+
+</body>
+</html>

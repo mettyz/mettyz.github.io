@@ -18,10 +18,10 @@
 */
 
 body {
-  font-family: "PT Serif", Georgia, "Times New Roman", serif;
-  font-size: 18px;
-  color: #515151;
-  line-height: 1.75rem;
+  font-family: Tahoma, Helvetica, Arial, Microsoft YaHei, sans-serif;
+  font-size: 16px;
+  color: #666666;
+  line-height: 1.5rem;
 }
 
 @media (max-width: 30em) {
@@ -35,7 +35,8 @@ body {
 }
 
 h1{
-  font-size: 2rem;
+  font-size: 1.8rem;
+  line-height: 2rem;
 }
 
 h1 a {
@@ -43,10 +44,22 @@ h1 a {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Quattrocento Sans", sans-serif;
+  font-family: "Quattrocento Sans", "Microsoft YaHei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;
   color: #333;
 }
 
+h2 {
+  font-size: 1.5rem;
+  margin: 2.5rem 0 1rem 0;
+}
+h3 {
+  font-size: 1.2rem;
+  margin: 1.5rem 0 1rem 0;
+}
+
+p {
+  margin: 0.7rem 0;
+}
 a {
   text-decoration: underline;
   color: #333;
@@ -61,10 +74,12 @@ img {
   max-width: 100%;
   height: auto;
   border-radius: 5px;
+  margin: 1.5rem auto;
+  display: flex;
 }
 
 blockquote {
-  margin: 10px 20px 10px;
+  margin: 10px 20px 10px 0;
   padding: 0px 15px;
   border-left: 0.25em solid #ccc;
   color: #999;
@@ -82,7 +97,7 @@ hr {
 .container {
   margin-left: auto;
   margin-right: auto;
-  width: 615px;
+  width: 750px;
 }
 
 /*48em*/
@@ -100,8 +115,8 @@ hr {
 .masthead {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
-  margin-bottom: 4rem;
-  font-family: "Quattrocento Sans", sans-serif;
+  margin-bottom: 3rem;
+  font-family: "Quattrocento Sans", "Microsoft YaHei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;
 }
 
 .masthead a:hover {
@@ -130,8 +145,8 @@ hr {
 }
 
 .thumbnail-container img{
-  margin-top: -11.5%;
-  margin-bottom: -11.5%;
+  height: auto;
+  margin: 0 auto;
 }
 
 /*
@@ -153,7 +168,7 @@ hr {
   margin-top:3px;
   margin-bottom: 1rem;
   color: #9a9a9a;
-  font-family: 'Quattrocento Sans', sans-serif;
+  font-family: 'Quattrocento Sans', "Microsoft YaHei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;
   font-size:0.8rem;
 }
 
@@ -182,7 +197,7 @@ hr {
 
 .pagination {
   overflow: hidden;
-  font-family: 'Quattrocento Sans', sans-serif;
+  font-family: 'Quattrocento Sans',"Microsoft YaHei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;
   text-align: center;
 }
 
@@ -271,7 +286,7 @@ hr {
 
 code,
 pre {
-  font-family: "Source Code Pro", monospace;
+  font-family: "Source Code Pro","Microsoft YaHei", "Hiragino Sans GB", "WenQuanYi Micro Hei", monospace;
 }
 code {
   padding: .25em .5em;

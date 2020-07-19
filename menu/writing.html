@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="/assets/css/main.css">
   <link rel="stylesheet" href="/assets/css/syntax.css">
   <!-- Use Atom -->
-  <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="MettyZ's Blog" />
+  <link type="application/atom+xml" rel="alternate" href="/feed.xml" title="MettyZ's Blog" />
   <!-- Use RSS-2.0 -->
   <!--<link href="/rss-feed.xml" type="application/rss+xml" rel="alternate" title="MettyZ's Blog | "/>
   //-->
@@ -28,7 +28,25 @@
   <script type="text/javascript" async
     src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
   </script>
-
+  
+  
+	<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+     TeX: {
+         equationNumbers: {
+             autoNumber: "AMS"
+         }
+     },
+     tex2jax: {
+         inlineMath: [ ['$','$'] ],
+         displayMath: [ ['$$','$$'] ],
+         processEscapes: true,
+     }
+ });
+ </script>
+ <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+ </script>
+  
   <!-- Google Analytics -->
   <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -48,11 +66,9 @@
 <meta property="og:title" content="Writing" />
 <meta name="author" content="mettyz" />
 <meta property="og:locale" content="en_US" />
-<link rel="canonical" href="http://localhost:4000/menu/writing.html" />
-<meta property="og:url" content="http://localhost:4000/menu/writing.html" />
 <meta property="og:site_name" content="MettyZ’s Blog" />
 <script type="application/ld+json">
-{"headline":"Writing","@type":"WebPage","url":"http://localhost:4000/menu/writing.html","author":{"@type":"Person","name":"mettyz"},"@context":"https://schema.org"}</script>
+{"@type":"WebPage","author":{"@type":"Person","name":"mettyz"},"url":"/menu/writing.html","headline":"Writing","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -113,11 +129,11 @@
     
 
     <li itemscope="">
-      <a href="/jekyll/update/welcome-to-jekyll.html">Welcome to Jekyll!</a>
-      <p class="post-date"><span><i class="fa fa-calendar" aria-hidden="true"></i> May 25 - <i class="fa fa-clock-o" aria-hidden="true"></i> 
+      <a href="/PR1.html">Paper Reading Record 1</a>
+      <p class="post-date"><span><i class="fa fa-calendar" aria-hidden="true"></i> July 18 - <i class="fa fa-clock-o" aria-hidden="true"></i> 
   
   
-    less than 1 minute read
+    1 minute read
   
 
 
@@ -148,7 +164,7 @@
     <a href="/feed.xml"><i class="fa fa-rss-square" aria-hidden="true"></i></a>
   
 
-  <div class="post-date"><a href="/menu/about.html">MettyZ's Blog |  by mettyz</a></div>
+  <div class="post-date"><a href="/menu/about.html">MettyZ's Blog | Seize the day</a></div>
 </footer>
 
   </div>

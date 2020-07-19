@@ -1,17 +1,328 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-05-25T09:23:30+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">MettyZ’s Blog</title><subtitle></subtitle><author><name>mettyz</name></author><entry><title type="html">Welcome to Jekyll!</title><link href="http://localhost:4000/jekyll/update/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to Jekyll!" /><published>2020-05-25T08:18:40+08:00</published><updated>2020-05-25T08:18:40+08:00</updated><id>http://localhost:4000/jekyll/update/welcome-to-jekyll</id><content type="html" xml:base="http://localhost:4000/jekyll/update/welcome-to-jekyll.html">&lt;p&gt;You’ll find this post in your &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2020-07-19T14:14:18+08:00</updated><id>/feed.xml</id><title type="html">MettyZ’s Blog</title><subtitle></subtitle><author><name>mettyz</name></author><entry><title type="html">Paper Reading Record 1</title><link href="/PR1.html" rel="alternate" type="text/html" title="Paper Reading Record 1" /><published>2020-07-18T00:00:00+08:00</published><updated>2020-07-18T00:00:00+08:00</updated><id>/PR1</id><content type="html" xml:base="/PR1.html">&lt;p&gt;(CVPR2020) &lt;a href=&quot;https://openaccess.thecvf.com/content_CVPR_2020/papers/Yu_Weakly_Supervised_Discriminative_Feature_Learning_With_State_Information_for_Person_CVPR_2020_paper.pdf&quot;&gt;[Paper]&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;Jekyll requires blog post files to be named according to the following format:&lt;/p&gt;
+&lt;!--more--&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;YEAR-MONTH-DAY-title.MARKUP&lt;/code&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;写在前面：文中包含个人理解，不保证正确，如理解有误，欢迎指正。&lt;/p&gt;
+&lt;/blockquote&gt;
 
-&lt;p&gt;Where &lt;code class=&quot;highlighter-rouge&quot;&gt;YEAR&lt;/code&gt; is a four-digit number, &lt;code class=&quot;highlighter-rouge&quot;&gt;MONTH&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;DAY&lt;/code&gt; are both two-digit numbers, and &lt;code class=&quot;highlighter-rouge&quot;&gt;MARKUP&lt;/code&gt; is the file extension representing the format used in the file. After that, include the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
+&lt;h2 id=&quot;main-idea&quot;&gt;Main Idea&lt;/h2&gt;
 
-&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
+&lt;p&gt;利用状态信息作为弱监督信号，来学习能够区分人身份的特征&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Hi, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Tom'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints 'Hi, Tom' to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;旨在处理由不同状态带来的视觉差异对模型的影响&lt;/p&gt;
 
-&lt;p&gt;Check out the &lt;a href=&quot;https://jekyllrb.com/docs/home&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://talk.jekyllrb.com/&quot;&gt;Jekyll Talk&lt;/a&gt;.&lt;/p&gt;</content><author><name>mettyz</name></author><summary type="html">You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run jekyll serve, which launches a web server and auto-regenerates your site when a file is updated.</summary></entry></feed>
+&lt;p&gt;利用WFDR将较强烈的特征畸变变得温和，利用WDBR矫正较温和的特征畸变&lt;/p&gt;
+
+&lt;h2 id=&quot;keywords&quot;&gt;Keywords&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;State Information：e.g. camera views, poses&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;论文中所利用的状态信息，是指那些&lt;strong&gt;无需额外人工标记&lt;/strong&gt;的，在数据集收集过程中就自带的状态标签，如拍摄的机位编号，拍摄的角度等&lt;/p&gt;
+    &lt;/blockquote&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;WDBR: Weakly supervised decision boundary rectification 【弱监督的决策边界矫正】&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;WFDR: Weakly supervised feature drift regularization 【弱监督的特征偏移正则化】&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;MPI: Maximum Predominance Index 【最大优势指数】&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;visual discrepancy，feature distortion&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;pseudo class = surrogate class&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;methods&quot;&gt;Methods&lt;/h2&gt;
+
+&lt;h3 id=&quot;pseudo-label-model&quot;&gt;Pseudo label model&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;指论文采用的&lt;strong&gt;训练策略&lt;/strong&gt;，采用了聚类的思想&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;基本思路&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;p&gt;初始设置 $K$ 个伪类，$K&amp;gt;$ 最大类别数，极端假设下，可以假设每张图像属于一个伪类&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;例：对于RE-ID，最大类别数即为数据集中不同人的数目，伪类的含义为身份id&lt;/p&gt;
+    &lt;/blockquote&gt;
+
+    &lt;p&gt;通过WDBR调整边界，有些伪类可能收缩到一个点，相当于被作废&lt;/p&gt;
+
+    &lt;p&gt;通过极小化分类损失训练模型，直观意义上，就是让样本尽可能靠近它被分到的伪类中心&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;拉近类内距离，拉远类间距离，提升特征空间的模块化程度&lt;/p&gt;
+    &lt;/blockquote&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/assets/img/PR1_pic/image-20200719112833305.png&quot; alt=&quot;image-20200719112833305&quot; style=&quot;zoom: 80%;&quot; /&gt;&lt;/p&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;训练目标&lt;/strong&gt;：特征提取器 $f$ ，用于提取可以区分身份的特征&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;利用模型将图像映射到状态空间中，同一身份的样本应该相互靠近&lt;/p&gt;
+
+      &lt;p&gt;进一步可利用聚类算法分类&lt;/p&gt;
+    &lt;/blockquote&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;符号说明&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;p&gt;$u_i$ ：一个无标签的图像样本，训练集中共有 $N$ 个样本&lt;/p&gt;
+
+    &lt;p&gt;$x$ ：特征空间中的向量表示&lt;/p&gt;
+
+    &lt;p&gt;$\theta$：模型 $f$ 的参数&lt;/p&gt;
+
+    &lt;p&gt;$s_i\in{1,\dots,J}$ ：样本 $i$ 的状态信息取值，有 $J$  种&lt;/p&gt;
+
+    &lt;p&gt;$\mu$ ：伪类分类器，即聚类中心&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;$x^T\mu_j$ 衡量了特征向量 $x$ 与聚类中心 $\mu_j$ 的相似程度，可看作将 $x$ 分到伪类 $j$ 的得分&lt;/p&gt;
+    &lt;/blockquote&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;wdbr&quot;&gt;WDBR&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;在&lt;strong&gt;较温和&lt;/strong&gt;的视觉差异的影响下，特征空间中，无标签样本可能稍微偏离正确的区域，到附近区域中&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;解决思路：通过调整决策边界，使无标签样本能够落在正确区域内&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/assets/img/PR1_pic/WDBR.png&quot; style=&quot;zoom: 50%;&quot; /&gt;&lt;/p&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;定义MPI&lt;/strong&gt; (最大优势指数)&lt;/p&gt;
+
+    &lt;p&gt;用于量化一个伪类受某种状态支配的程度&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;MPI越大，说明这些样本之所以被归为这一类，很可能是因为受到了这个状态的影响，而这个状态本身不是我们期望模型用于分类的特征&lt;/p&gt;
+    &lt;/blockquote&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+    &lt;p&gt;具体定义为&lt;strong&gt;伪类中具有支配状态的样本的占比&lt;/strong&gt;，形式化如下&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/assets/img/PR1_pic/MPI.png&quot; style=&quot;zoom:67%;&quot; /&gt;&lt;/p&gt;
+
+    &lt;p&gt;其中，分母表示当前伪类k中样本个数，分子表示在某一状态上取值相同的最大子集&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;分子 = $max_j$ (伪类k中状态取值为 $j$ 的样本个数)&lt;/p&gt;
+    &lt;/blockquote&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;矫正策略&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;p&gt;利用下述分类公式，可&lt;strong&gt;将 MPI 值超过阈值的伪类收缩&lt;/strong&gt;，甚至作废&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;$a$ 可视作&lt;strong&gt;矫正力度&lt;/strong&gt;，$b$ 可视作&lt;strong&gt;矫正阈值&lt;/strong&gt;&lt;/p&gt;
+    &lt;/blockquote&gt;
+
+    &lt;p&gt;可以看到，在hard设定下，超过阈值的伪类 $p(k)=0$，此时不会有样本被分到该类，即实现了将该类作废&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/assets/img/PR1_pic/image-20200717084810814.png&quot; style=&quot;zoom: 67%;&quot; /&gt; &lt;img src=&quot;/assets/img/PR1_pic/image-20200717085548489.png&quot; style=&quot;zoom: 45%;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;小结&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;WDBR 训练模型倾向于扩大 MPI 值较小的伪类的作用域&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;MPI 值较小，意味着这个伪类当中的样本在各个状态上的分布较为均衡，也就意味着它们被分在一起不是因为受到这些状态信息的影响&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;如此训练出的模型将倾向于提取对状态信息不敏感的特征&lt;/p&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;wfdr&quot;&gt;WFDR&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;当视觉差异影响&lt;strong&gt;较严重&lt;/strong&gt;时，样本可能会严重偏离正确区域&lt;/p&gt;
+
+    &lt;p&gt;此时，若想使用WDBR，需要先将特征畸变变得温和 (significant $\to$ moderate)&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;解决思路&lt;/p&gt;
+
+    &lt;p&gt;受某种状态影响导致的特征畸变通常遵循一个特定的模式（如照明不足将抑制所有视觉特征），这会导致特征空间中，处于该状态的样本向同一个方向偏移&lt;/p&gt;
+
+    &lt;p&gt;因此，我们可以在全局尺度上捕获这种偏移，然后把它“拉回来”&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/assets/img/PR1_pic/WFDR.png&quot; style=&quot;zoom: 50%;&quot; /&gt;&lt;/p&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;如何捕获？&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;p&gt;捕捉状态子分布  ( state sub-distribution ) 与全局样本特征分布之间的偏差&lt;/p&gt;
+
+    &lt;p&gt;假设 $P(Q_j)$  为状态取值为 $j$ 的样本的分布情况，$P(X)$ 为所有样本的分布情况，&lt;/p&gt;
+
+    &lt;p&gt;畸变将导致 $P(Q_j)$ 偏离 $P(X)$&lt;/p&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;矫正策略&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;p&gt;拉近两分布的距离，对应损失函数如下：&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/assets/img/PR1_pic/image-20200717095414630.png&quot; style=&quot;zoom:67%;&quot; /&gt;&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/assets/img/PR1_pic/image-20200717095435308.png&quot; style=&quot;zoom:67%;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;小结&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;可以看出，损失函数对两个分布之间的距离进行惩罚，并调整参数 $\theta$&lt;/p&gt;
+
+        &lt;blockquote&gt;
+          &lt;p&gt;$\theta$ 是目标特征提取器的参数&lt;/p&gt;
+        &lt;/blockquote&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;直观上，这将使模型在提取特征向量时，减少对状态的关注，即尽量不让这个状态影响到特征向量的分布&lt;/p&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;loss-function&quot;&gt;Loss Function&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/PR1_pic/image-20200719113120576.png&quot; alt=&quot;image-20200719113120576&quot; style=&quot;zoom:80%;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;experiments&quot;&gt;Experiments&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Tasks&lt;/strong&gt;：person re-identification (&lt;strong&gt;RE-ID&lt;/strong&gt;) and pose-invariant face recognition (&lt;strong&gt;PIFR&lt;/strong&gt;)&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;RE-ID：将不同镜头下拍摄到的人进行身份匹配，对应状态信息：相机标签&lt;/p&gt;
+
+      &lt;p&gt;PIFR：将不同姿势的人脸进行匹配，对应状态信息：姿势（不同角度/正侧面）&lt;/p&gt;
+    &lt;/blockquote&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/assets/img/PR1_pic/image-20200719115228806.png&quot; style=&quot;zoom:67%;&quot; /&gt;&lt;/p&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;消蚀实验等验证模型有效性与准确性的实验不再赘述，先说&lt;strong&gt;结论&lt;/strong&gt;：&lt;/p&gt;
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;动态调整聚类中心、WDBR、WFDR均有效&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;WDBR 与 WFDR 的能力能够互为补充&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;对样本不平衡的数据集，WDBR 的 hard 矫正可能更加有效，而对于平衡的数据集，soft 矫正能够体现出优势&lt;/p&gt;
+
+        &lt;blockquote&gt;
+          &lt;p&gt;平衡：数据集中每个人有多少张照片是固定的&lt;/p&gt;
+        &lt;/blockquote&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;分析一些实验现象&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/assets/img/PR1_pic/image-20200719115725587.png&quot; alt=&quot;image-20200719115725587&quot; style=&quot;zoom: 70%;&quot; /&gt;&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;&lt;strong&gt;在 Multi-PIE 中，WFDR没有起到很大作用&lt;/strong&gt;&lt;/p&gt;
+
+        &lt;p&gt;可能原因：在 Multi-PIE 中，人脸角度变化是连续的，因此特征本就没有很大的偏移&lt;/p&gt;
+
+        &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;&lt;strong&gt;soft 矫正在 PIFR 任务上表现较好，而 hard 矫正在 RE-ID 任务上表现较好&lt;/strong&gt;&lt;/p&gt;
+
+        &lt;p&gt;可能原因：RE-ID 数据集中，不同身份的人的图像数量不均衡&lt;/p&gt;
+
+        &lt;p&gt;&lt;strong&gt;soft 矫正器&lt;/strong&gt; 的权重变化是一个连续的过程，它将更倾向于状态均衡程度高的伪类，因此机位照片多的人将更可能获得大权重，这是不公平的&lt;/p&gt;
+
+        &lt;blockquote&gt;
+          &lt;p&gt;如果一个人只有2个机位的照片，则他的 MPI 值至少是 1/2，而有6个机位照片的人，MPI 值最小是 1/6，因此能够获得更大的 $p(k)$&lt;/p&gt;
+        &lt;/blockquote&gt;
+
+        &lt;p&gt;&lt;strong&gt;hard 矫正器&lt;/strong&gt; 是一个阶跃函数，仅仅使具有很高 MPI 值的伪类失效，对状态均衡的&lt;strong&gt;程度&lt;/strong&gt;没有偏好&lt;/p&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;my-thoughts&quot;&gt;My Thoughts&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;状态信息的寻找与利用依靠人工设计，有没有可能让网络自己衡量特征对任务的帮助程度？&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;在浅层网络中，特征向量的每一个维度可能对应着某一种状态属性&lt;/p&gt;
+
+      &lt;p&gt;随着网络的加深，每个维度则可能编码着多种状态的综合属性&lt;/p&gt;
+
+      &lt;p&gt;如果修改一个特征，能够让一组样本发生整体的偏移，而样本之间的相对距离变化不大，是否能够说明这个特征是某种对区分样本帮助不大的状态特征？&lt;/p&gt;
+    &lt;/blockquote&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;训练集中的人和测试集中的人没有重合&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;很关键，这样一来能够测试出模型学习到的特征是否是关注于”区分”，而非提取这个人本身的特征&lt;/p&gt;
+    &lt;/blockquote&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;</content><author><name>mettyz</name></author><summary type="html">CVPR2020, Weakly supervised, State information...</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="/PR1.png" /><media:content medium="image" url="/PR1.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
