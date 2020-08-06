@@ -1,4 +1,307 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2020-07-20T07:49:00+08:00</updated><id>/feed.xml</id><title type="html">MettyZ’s Blog</title><subtitle></subtitle><author><name>mettyz</name></author><entry><title type="html">Paper Reading Record 1</title><link href="/PR1.html" rel="alternate" type="text/html" title="Paper Reading Record 1" /><published>2020-07-18T00:00:00+08:00</published><updated>2020-07-18T00:00:00+08:00</updated><id>/PR1</id><content type="html" xml:base="/PR1.html">&lt;p&gt;(CVPR2020) &lt;a href=&quot;https://openaccess.thecvf.com/content_CVPR_2020/papers/Yu_Weakly_Supervised_Discriminative_Feature_Learning_With_State_Information_for_Person_CVPR_2020_paper.pdf&quot;&gt;[Paper]&lt;/a&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2020-08-07T00:52:11+08:00</updated><id>/feed.xml</id><title type="html">MettyZ’s Blog</title><subtitle></subtitle><author><name>mettyz</name></author><entry><title type="html">Paper Reading Record 2</title><link href="/PR2.html" rel="alternate" type="text/html" title="Paper Reading Record 2" /><published>2020-08-06T00:00:00+08:00</published><updated>2020-08-06T00:00:00+08:00</updated><id>/PR2</id><content type="html" xml:base="/PR2.html">&lt;p&gt;QuaterNet: A Quaternion-based Recurrent Model for Human Motion &lt;a href=&quot;https://arxiv.org/pdf/1805.06485.pdf&quot;&gt;[Paper]&lt;/a&gt;&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;写在前面：文中包含个人理解，不保证正确，如理解有误，欢迎指正。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;main-idea&quot;&gt;Main Idea&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;基于&lt;strong&gt;四元数&lt;/strong&gt;构建模型，在描述3D运动上有天然优势&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;损失函数&lt;strong&gt;采用关节点位置误差&lt;/strong&gt;（将 预测旋转 与 预测绝对位置 两类方法的优势相结合）&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;为短期预测与长期预测分别构建了模型&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;对长期预测，加入了人工特征控制（轨迹、速度、面部朝向、步频）&lt;/p&gt;
+    &lt;/blockquote&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;残差连接&lt;/strong&gt;在短期预测中有优势，在长期预测中不适用&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;人类行为是一个具有&lt;strong&gt;高度内在不确定性&lt;/strong&gt;的随机序列过程，这为长期预测带来挑战&lt;/p&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;短期预测&lt;/strong&gt;通常被看作&lt;em&gt;预测&lt;/em&gt; 任务 (short-term prediction)&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;能够通过将预测结果与参考结果对比来定量计算损失&lt;/p&gt;
+    &lt;/blockquote&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;长期预测&lt;/strong&gt;通常被看作&lt;em&gt;生成&lt;/em&gt; 任务 (long-term generation)&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;定量评估较为困难，可以让人来评估生成质量&lt;/p&gt;
+    &lt;/blockquote&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;related-work&quot;&gt;Related Work&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;行为预测的两大类方式 —— &lt;em&gt;Joint Rotations&lt;/em&gt; v.s. &lt;em&gt;Joint Positions&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;&lt;strong&gt;预测关节点的旋转 (Joint Rotations)&lt;/strong&gt;&lt;/p&gt;
+
+        &lt;p&gt;优势：自然地以骨架作为约束，避免了躯干伸缩及超出关节范围的运动等问题&lt;/p&gt;
+
+        &lt;p&gt;缺陷：&lt;/p&gt;
+
+        &lt;ul&gt;
+          &lt;li&gt;
+            &lt;p&gt;通常计算各关节点的平均损失，即不同关节点的权重相同&lt;/p&gt;
+
+            &lt;blockquote&gt;
+              &lt;p&gt;实际上，不同关节点的错位对姿态的影响程度不同，如连接躯干及四肢的关节点对姿态的影响强于四肢末端的关节点&lt;/p&gt;
+            &lt;/blockquote&gt;
+
+            &lt;p&gt;这可能导致模型的预测结果在重要关节上出现较大误差，影响视觉效果&lt;/p&gt;
+
+            &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;&lt;strong&gt;预测关节点的位置 (Joint Positions)&lt;/strong&gt;&lt;/p&gt;
+
+        &lt;p&gt;优势：极小化绝对位置损失，避免了上述缺陷&lt;/p&gt;
+
+        &lt;p&gt;缺陷：缺乏骨架约束，四肢躯干可能出现变形，需要将预测结果作重映射调整，增加训练难度，带来额外开销，且重映射可能导致动作的不连续&lt;/p&gt;
+
+        &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;利用残差连接帮助训练&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;直观上理解，残差连接迫使网络预测变化的 “速度 (velocities) “ 而不是 “值 (absolute values)”&lt;/p&gt;
+
+        &lt;p&gt;&lt;img src=&quot;../assets/img/2020-08-06-PR2_pic/image-20200806175039090.png&quot; alt=&quot;image-20200806175039090&quot; style=&quot;zoom: 67%;&quot; /&gt;&lt;/p&gt;
+
+        &lt;blockquote&gt;
+          &lt;p&gt;[1] Julieta Martinez, Michael J. Black, and Javier Romero. On human motion prediction using recurrent neural networks. In Conference on Vision and Pattern Recognition (CVPR), 2017.&lt;/p&gt;
+        &lt;/blockquote&gt;
+
+        &lt;ul&gt;
+          &lt;li&gt;
+            &lt;p&gt;优势：使得需要预测的值被限制在较小的范围内，有助于网络收敛&lt;/p&gt;
+
+            &lt;p&gt;缺陷：在长期预测任务上表现不稳定，由于误差累积可能导致糟糕结果&lt;/p&gt;
+
+            &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;&lt;strong&gt;建模方法&lt;/strong&gt;&lt;/p&gt;
+
+        &lt;ul&gt;
+          &lt;li&gt;
+            &lt;p&gt;早期方法：每步输入ground truth motion作为教师监督&lt;/p&gt;
+
+            &lt;p&gt;缺陷：模型不具备错误恢复能力&lt;/p&gt;
+          &lt;/li&gt;
+          &lt;li&gt;
+            &lt;p&gt;[1] 方法：每步输入上一步的预测结果&lt;/p&gt;
+
+            &lt;p&gt;缺陷：如果用于长期预测，累积损失将会很大，导致模型将难以训练&lt;/p&gt;
+          &lt;/li&gt;
+          &lt;li&gt;
+            &lt;p&gt;任务分解法：将长期预测任务分解为 1) 定义运动轨迹 2) 用 footsteps 标注轨迹 3) 生成姿态序列&lt;/p&gt;
+          &lt;/li&gt;
+          &lt;li&gt;
+            &lt;p&gt;生成模型&lt;/p&gt;
+
+            &lt;blockquote&gt;
+              &lt;p&gt;Jacob Walker, Kenneth Marino, Abhinav Gupta, and Martial Hebert. The pose knows: Video forecasting by generating pose futures. International Conference on Computer Vision (ICCV), 2017. 【待阅读】&lt;/p&gt;
+            &lt;/blockquote&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;method&quot;&gt;Method&lt;/h2&gt;
+
+&lt;h3 id=&quot;architecture&quot;&gt;Architecture&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;../assets/img/2020-08-06-PR2_pic/image-20200806193719030.png&quot; alt=&quot;image-20200806193719030&quot; style=&quot;zoom:80%;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;构建使用双层GRU的自回归模型&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;与 [1] 不同，团队发现增加第二层GRU具有经验优势，但不必增加到三层【可以验证一下】，设置 hidden size = 1000&lt;/p&gt;
+    &lt;/blockquote&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Short-term Prediction：每步输入上一步的预测结果&lt;/p&gt;
+
+    &lt;p&gt;Long-term Generation：每步以概率 p 输入 ground truth 监督&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;随着训练过程的进行，p 从1开始递减： $p_{t+1} = \beta p_t$，其中 $\beta =0.995$&lt;/p&gt;
+    &lt;/blockquote&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Rotations：由单位四元数描述的关节旋转状态&lt;/p&gt;
+
+    &lt;p&gt;Translations：用于建模高频运动细节，使生成的动画更加逼真&lt;/p&gt;
+
+    &lt;p&gt;Controls：轨迹控制信息&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;Translations 和 Controls 的数学细节没太看懂&lt;/p&gt;
+    &lt;/blockquote&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;对短期预测采用了QMul，即训练模型预测从当前姿态到下一姿态的变换角度&lt;/p&gt;
+
+    &lt;p&gt;对长期预测未采用QMul，即训练模型预测准确的下一姿态&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;如下图实验显示，残差连接用于长期预测将累积误差，导致模型不稳定，&lt;/p&gt;
+
+      &lt;p&gt;而不采用残差的方法在长期预测中表现出优势&lt;/p&gt;
+    &lt;/blockquote&gt;
+
+    &lt;p&gt;&lt;img src=&quot;../assets/img/2020-08-06-PR2_pic/image-20200806234435170.png&quot; alt=&quot;image-20200806234435170&quot; style=&quot;zoom:67%;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;rotation-parameterization&quot;&gt;Rotation Parameterization&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;欧拉角，指数映射&lt;/strong&gt;  $ R^3$&lt;/p&gt;
+
+    &lt;p&gt;缺陷：表示不唯一 ($\alpha=\alpha+2\pi n$)、表示空间不连续、奇点 (gimbal loack 万向锁)&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;四元数&lt;/strong&gt;  $ R^4 $&lt;/p&gt;
+
+    &lt;p&gt;优势：不存在上述三维空间中的问题，且数值更加稳定、计算更加高效&lt;/p&gt;
+
+    &lt;p&gt;缺陷：需要保证单位长度，因此每步都需要进行正则化&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;对 $q=w+xi+yj+zk$，要求 $||q||=\sqrt{w^2+x^2+y^2+z^2}=1$&lt;/p&gt;
+
+      &lt;p&gt;本文为损失函数添加了正则约束 $\lambda(w^2+x^2+y^2+z^2-1)$ ，设置 $\lambda=0.01$&lt;/p&gt;
+    &lt;/blockquote&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;forward-kinematics-loss&quot;&gt;Forward Kinematics Loss&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;直接对角度进行回归可能会导致关键关节点出现偏差，进而显著影响整体姿态效果&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;本文的损失函数根据预测出的四元数计算出关节点的预测位置，再计算欧几里得距离作为损失&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;&lt;strong&gt;Forward kinematics&lt;/strong&gt; refers to the use of the kinematic equations of a robot to compute the position of the end-effector from specified values for the joint parameters. &lt;a href=&quot;https://en.wikipedia.org/wiki/Forward_kinematics&quot;&gt;Wiki&lt;/a&gt;&lt;/p&gt;
+    &lt;/blockquote&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;long-term-generation&quot;&gt;Long-Term Generation&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;任务定义：给定平均速度与运动轨迹，生成姿态序列&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;任务分解&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;1）沿着轨迹定义参数：角色面对的方向，局部速度，脚步频率&lt;/p&gt;
+
+        &lt;blockquote&gt;
+          &lt;p&gt;&lt;strong&gt;轨迹表示&lt;/strong&gt;&lt;/p&gt;
+
+          &lt;p&gt;可视为分段线性样条 piecewise linear spline，可理解为分段线性函数&lt;/p&gt;
+
+          &lt;p&gt;在本任务背景下，轨迹可以按等长时间分段，相当于在每小段时间内面向某个方向，以某个速度前进&lt;/p&gt;
+        &lt;/blockquote&gt;
+
+        &lt;blockquote&gt;
+          &lt;p&gt;&lt;strong&gt;pace network&lt;/strong&gt;&lt;/p&gt;
+
+          &lt;p&gt;参数可以人工设置，也可以通过训练速度网络(pace network)自动生成&lt;/p&gt;
+
+          &lt;p&gt;采用单层GRU, hidden size = 30，输入轨迹曲线与上一步的隐状态，预测上述参数&lt;/p&gt;
+
+          &lt;p&gt;可以根据 在线/离线场景 设置 单向/双向GRU&lt;/p&gt;
+        &lt;/blockquote&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;2）预测姿态序列 (pose network，如架构图所示)&lt;/p&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;experiments&quot;&gt;Experiments&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;下述只提及文中部分实验结果&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;证实残差连接在短期预测中的优势&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;../assets/img/2020-08-06-PR2_pic/image-20200806235125169.png&quot; alt=&quot;image-20200806235125169&quot; style=&quot;zoom:67%;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;展示 pace network 的效果&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;../assets/img/2020-08-06-PR2_pic/image-20200807001138289.png&quot; alt=&quot;image-20200807001138289&quot; style=&quot;zoom:67%;&quot; /&gt;&lt;/p&gt;
+
+    &lt;p&gt;黑线：轨迹曲率，作为输入，尖锐部分表示有大的转向&lt;/p&gt;
+
+    &lt;p&gt;蓝、绿线：可以看到在转弯处，速度明显减慢、步频略微加快，合理&lt;/p&gt;
+
+    &lt;p&gt;橙线：面部朝向变换合理&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content><author><name>mettyz</name></author><summary type="html">Human Motion Prediction, 3D-skeleton, Quaternion, RNN...</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="/PR2.png" /><media:content medium="image" url="/PR2.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Paper Reading Record 1</title><link href="/PR1.html" rel="alternate" type="text/html" title="Paper Reading Record 1" /><published>2020-07-18T00:00:00+08:00</published><updated>2020-07-18T00:00:00+08:00</updated><id>/PR1</id><content type="html" xml:base="/PR1.html">&lt;p&gt;(CVPR2020) &lt;a href=&quot;https://openaccess.thecvf.com/content_CVPR_2020/papers/Yu_Weakly_Supervised_Discriminative_Feature_Learning_With_State_Information_for_Person_CVPR_2020_paper.pdf&quot;&gt;[Paper]&lt;/a&gt;&lt;/p&gt;
 
 &lt;!--more--&gt;
 
