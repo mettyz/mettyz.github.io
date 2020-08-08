@@ -1,0 +1,583 @@
+<!doctype html>
+<html>
+
+<head>
+
+  <title>
+    
+      Paper Reading Record 3 | MettyZ's Blog
+    
+  </title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/syntax.css">
+  <link rel="shortcut icon" type="image/png" href="favicon.png">
+  <!-- Use Atom -->
+  <link type="application/atom+xml" rel="alternate" href="/feed.xml" title="MettyZ's Blog" />
+  <!-- Use RSS-2.0 -->
+  <!--<link href="/rss-feed.xml" type="application/rss+xml" rel="alternate" title="MettyZ's Blog | "/>
+  //-->
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quattrocento+Sans">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+  
+  
+	<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+     TeX: {
+         equationNumbers: {
+             autoNumber: "AMS"
+         }
+     },
+     tex2jax: {
+         inlineMath: [ ['$','$'] ],
+         displayMath: [ ['$$','$$'] ],
+         processEscapes: true,
+     }
+ });
+ </script>
+ <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+ </script>
+  
+  <!-- Google Analytics -->
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+  <!-- Use Jekyll SEO plugin -->
+  <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Paper Reading Record 3 | MettyZ’s Blog</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Paper Reading Record 3" />
+<meta name="author" content="mettyz" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Human Motion Prediction, 3D-skeleton, DCT, GCN…" />
+<meta property="og:description" content="Human Motion Prediction, 3D-skeleton, DCT, GCN…" />
+<meta property="og:site_name" content="MettyZ’s Blog" />
+<meta property="og:image" content="/PR3.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-08-08T00:00:00+08:00" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"/PR3.html"},"author":{"@type":"Person","name":"mettyz"},"url":"/PR3.html","headline":"Paper Reading Record 3","dateModified":"2020-08-08T00:00:00+08:00","datePublished":"2020-08-08T00:00:00+08:00","description":"Human Motion Prediction, 3D-skeleton, DCT, GCN…","image":"/PR3.png","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+</head>
+
+
+<body>
+
+  <div class="container">
+    <header class="masthead">
+  <h3 class="masthead-title">
+    <a href="/">MettyZ's Blog</a>
+    <small class="masthead-subtitle"></small>
+    <div class="menu">
+  <nav class="menu-content">
+    
+      <a href="/menu/about.html">About</a>
+    
+      <a href="/menu/writing.html">Writing</a>
+    
+      <a href="/menu/contact.html">Contact</a>
+    
+  </nav>
+  <nav class="social-icons">
+    
+  
+  
+    <a href="https://www.github.com/mettyz" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="mailto:1243049625@qq.com" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="/feed.xml"><i class="fa fa-rss-square" aria-hidden="true"></i></a>
+  
+
+  </nav>
+</div>
+
+  </h3>
+</header>
+
+
+    <div class="post-container">
+      <h1>
+  Paper Reading Record 3
+</h1>
+
+
+  <img src="/assets/img/PR3.png">
+
+
+<p>(CVPR2019) <a href="https://arxiv.org/pdf/1908.05436v3.pdf">[Paper]</a></p>
+
+<!--more-->
+
+<blockquote>
+  <p>写在前面：文中包含个人理解，不保证正确，如理解有误，欢迎指正。</p>
+</blockquote>
+
+<h2 id="main-idea">Main Idea</h2>
+
+<ul>
+  <li>
+    <p>使用 DCT 系数编码各个关节点在<strong>时序</strong>上的信息</p>
+  </li>
+  <li>
+    <p>使用 GCN 建模关节点的<strong>空间</strong>关联，且允许网络自适应地调整任意关节点间的连通权重</p>
+  </li>
+  <li>
+    <p>提出由于角度空间的表示存在二义性，基于欧拉角的评估标准不可靠</p>
+
+    <p>建议今后的工作采用基于3D位置的评估标准</p>
+  </li>
+</ul>
+
+<h2 id="introduction">Introduction</h2>
+
+<ul>
+  <li>
+    <p>基于RNN的方法存在的问题</p>
+
+    <ul>
+      <li>
+        <p>并行能力差，训练难度较大</p>
+      </li>
+      <li>
+        <p>若每帧输入上帧预测结果，误差可能随着序列累积</p>
+
+        <p>若每帧输入GT监督，则易出现预测动作的不连续</p>
+
+        <blockquote>
+          <p><em>curriculum learning strategy</em></p>
+
+          <p>以一定概率输入GT作为教师监督，否则输入前一步预测结果</p>
+
+          <p>该策略可在一定程度上缓解上述问题</p>
+        </blockquote>
+
+        <p><br /></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>如何编码时序信息</strong>，是前馈神经网络在处理时序相关问题时必须考虑的问题</p>
+
+    <ul>
+      <li>
+        <p>现有方法：通过在时序维度上进行卷积，但这将很大程度上依赖于卷积核的大小</p>
+      </li>
+      <li>
+        <p><strong>本文方法：在轨迹空间中建模运动（而非姿态空间中）</strong></p>
+
+        <p>更具体地，采用 离散余弦变换 (DCT) 编码时序信息，建模每个关节点的变化轨迹</p>
+
+        <blockquote>
+          <p><strong>离散余弦变换 Discrete Cosine Transform</strong></p>
+
+          <p>形式上看，DCT是一个线性可逆函数 $F:R^n\to R^n$</p>
+
+          <p><img src="../assets/img/2020-08-08-PR3_pic/image-20200807193035539.png" alt="image-20200807193035539" style="zoom: 80%;" /></p>
+
+          <p>进一步，将 $f_0$ 乘以 $\frac{1}{\sqrt{2}}$ ，将使得DCT-II 成为正交矩阵。</p>
+
+          <p>​																					—— <em>From <a href="https://zh.wikipedia.org/wiki/离散余弦变换">Wiki</a></em></p>
+        </blockquote>
+      </li>
+    </ul>
+
+    <p><br /></p>
+  </li>
+  <li>
+    <p><strong>如何编码关节点间的空间依赖关系</strong></p>
+
+    <ul>
+      <li>
+        <p>现有方法及缺陷</p>
+
+        <p>​	1）基于骨架，无法建模远距离依赖</p>
+
+        <p>​	2）基于空间卷积，依赖于卷积核的大小</p>
+      </li>
+      <li>
+        <p><strong>本文方法：图卷积，且允许网络自主学习节点间的连通关系</strong>，而非预定义图的连接，从而能够解决上述两种问题</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="related-works">Related Works</h2>
+
+<ul>
+  <li>
+    <p><strong>基于对抗网络的模型</strong></p>
+
+    <ul>
+      <li>
+        <p>主要思想：迫使生成器生成平滑的动作序列，使判别器无法分辨</p>
+
+        <blockquote>
+          <p>是对RNN模型预测动作不连续问题的一种解决办法</p>
+        </blockquote>
+      </li>
+      <li>
+        <p>缺陷：模型较复杂，训练难度较大，且难以扩展到新的数据集</p>
+      </li>
+    </ul>
+
+    <p><br /></p>
+  </li>
+  <li>
+    <p><strong>图卷积网络 GCNs</strong></p>
+
+    <blockquote>
+      <p>笔者对该领域暂不熟悉，下面简单直译论文的描述，仅作为阅读记录</p>
+    </blockquote>
+
+    <ul>
+      <li>
+        <p>GCN 领域的主要研究成果可分为 光谱(spectral) 与 非光谱(non-spectral) 方法</p>
+
+        <ul>
+          <li>
+            <p><strong>spectral 代表</strong></p>
+
+            <p>[1] Thomas N Kipf and Max Welling. Semi-supervised classification with graph convolutional networks. In ICLR, 2017.</p>
+
+            <blockquote>
+              <p>采用基于图结构的 filters，这使得该方法的泛化能力受限</p>
+            </blockquote>
+          </li>
+          <li>
+            <p><strong>non-spectral 代表</strong></p>
+
+            <p>[2] Petar Veliˇckovi´c, Guillem Cucurull, Arantxa Casanova, Adriana Romero, Pietro Lio, and Yoshua Bengio. Graph attention networks. In ICLR, 2018.</p>
+
+            <blockquote>
+              <p>通过自监督的方式决定图的连接，使网络更加灵活</p>
+            </blockquote>
+          </li>
+        </ul>
+
+        <p><br /></p>
+      </li>
+      <li>
+        <p>用GCN作行为预测，最简单直接的建图方式就是基于骨架</p>
+
+        <p>缺陷：无法捕捉不相连的关节间的依赖关系</p>
+
+        <p><strong>本文方法受 [2] 启发，允许网络自适应地调整各关节点间的连通权重</strong></p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="method">Method</h2>
+
+<h3 id="task">Task</h3>
+
+<ul>
+  <li>
+    <p>已知动作序列 $X_{1:N}=[x_1,x_2,\dots, x_N]$，由 $N$ 个连续的人体姿态组成</p>
+
+    <p>其中，$x_i\in R^K$，$K$ 为关节点个数</p>
+  </li>
+  <li>
+    <p>预测 $X_{N+1:N+T}$ ，即未来 $T$ 个时间步的动作序列</p>
+  </li>
+  <li>
+    <p>$X_{1:N}$ 的单列表示一个时刻的人体姿态，单行则表示一个关节点在 $N$ 时间步内的运动情况</p>
+
+    <p>记第 $k$ 个关节点对应的行为 $\widetilde x_k = (x_{k,1},x_{k,2},\dots,x_{k,N})$</p>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="temporal-encoding">Temporal Encoding</h3>
+
+<ul>
+  <li>
+    <p><strong>主要思想</strong></p>
+
+    <ul>
+      <li>将DCT系数作为动作序列的一种编码，旨在捕捉每个关节点的运动模式</li>
+      <li>实验证实，通过丢弃高频项，DCT系数提供了一个更加紧凑的表示，能较好地捕捉到人体运动的平滑性</li>
+    </ul>
+
+    <p><br /></p>
+  </li>
+  <li>
+    <p><strong>编码</strong></p>
+
+    <p>给定轨迹 $\widetilde x_k$，时间步 $l$ 对应的DCT系数可以表示为</p>
+
+    <p><img src="../assets/img/2020-08-08-PR3_pic/image-20200808111235452.png" alt="image-20200808111235452" style="zoom: 80%;" /></p>
+
+    <p>其中，$\delta_{l1}$ 只在 $l=1$ 时取值为1，否则取值为0 【数学细节，用于使DCT-II 成为正交矩阵】</p>
+
+    <blockquote>
+      <p>对 $l\in{1,2,…,N}$，过滤其中较大的值，在当前任务背景下可以理解为移除高频运动</p>
+
+      <p>【不是很理解】</p>
+    </blockquote>
+
+    <p><br /></p>
+  </li>
+  <li>
+    <p><strong>解码</strong></p>
+
+    <p>给定DCT系数，原始姿态表示能够通过 逆DCT (IDCT) 变换获得</p>
+
+    <p><img src="../assets/img/2020-08-08-PR3_pic/image-20200808112415731.png" alt="image-20200808112415731" style="zoom:80%;" /></p>
+
+    <p>同样， $n\in{1,2,…,N}$</p>
+
+    <blockquote>
+      <p>注：若保留所有DCT系数，DCT 与 IDCT 变换前后为无损转换，但截断一些高频项能够防止生成抖动的运动 ( jittery motion )</p>
+    </blockquote>
+
+    <p><br /></p>
+  </li>
+  <li>
+    <p><strong>主要步骤</strong></p>
+
+    <ul>
+      <li>
+        <p>给定动作序列 $X_{1:N}$</p>
+      </li>
+      <li>
+        <p>将最后一帧 $x_N$ 复制 $T$ 次，构成总长度为 $N+T$ 的动作序列</p>
+
+        <blockquote>
+          <p>将这一复制操作生成的序列作为原始输入，添加残差连接，迫使模型学习“变化”</p>
+        </blockquote>
+      </li>
+      <li>
+        <p>计算该序列的DCT系数作为输入，模型生成预测输出 $X_{1:N+T}$</p>
+
+        <blockquote>
+          <p>输入可以有两种形式：</p>
+
+          <p>1）将所有关节点的DCT表示堆叠为一个向量</p>
+
+          <p>2）构成一个 $K×L$ 的矩阵，其中，$K$ 为关节点数，$L$ 为保留的DCT系数数量</p>
+        </blockquote>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="spatial-encoding">Spatial Encoding</h3>
+
+<ul>
+  <li>
+    <p><strong>主要思想</strong>：采用图卷积网络编码空间依赖，允许网络自适应调整连通权重</p>
+  </li>
+  <li>
+    <p><strong>主要步骤</strong></p>
+
+    <ul>
+      <li>
+        <p>初始，假设人体为由 $K$ 个关节点构成的全连接图</p>
+
+        <p>各连接边的强度由 带权邻接矩阵 $A\in R^{K×K}$ 表示</p>
+      </li>
+      <li>
+        <p>一个图卷积层 $p$ 输入矩阵 $H^{(p)}\in R^{K×F}$ ，在权重矩阵 $W^{(p)}\in R^{F×\hat{F}}$ 的作用下，</p>
+
+        <p>输出为 $H^{(p+1)}=\sigma(A^{(p)}H^{(p)}W^{(p)})$</p>
+
+        <blockquote>
+          <p>其中，$F$ 为前一层的输出特征数，$A,W$ 为可训练的参数矩阵，$\sigma(\cdot)$ 为激活函数</p>
+
+          <p>$A$ 理解为任意两关节点间的相互作用关系</p>
+
+          <p>$W$ 类比全连接网络中，对各特征进行线性组合，输出特征维度为 $\hat{F}$</p>
+        </blockquote>
+      </li>
+      <li>
+        <p>堆叠图卷积层，并添加残差连接</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="network-structure">Network Structure</h3>
+
+<p><img src="../assets/img/2020-08-08-PR3_pic/image-20200808154133786.png" alt="image-20200808154133786" style="zoom:80%;" /></p>
+
+<ul>
+  <li>外层残差连接，如之前所述，希望网络对 DCT 的”变化”进行建模</li>
+  <li>内层残差连接，则类比传统ResNet中残差边的作用，主要作用是使深度网络的能力不退化</li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="training">Training</h3>
+
+<ul>
+  <li>
+    <p>对角度表示，采用 $l_1$ 损失函数计算平均损失</p>
+
+    <p><img src="../assets/img/2020-08-08-PR3_pic/image-20200808164738904.png" alt="image-20200808164738904" style="zoom:80%;" /></p>
+  </li>
+  <li>
+    <p>对3D坐标表示，计算平均关节位置损失 (MPJPE: Mean Per Joint Position Error)</p>
+
+    <p><img src="../assets/img/2020-08-08-PR3_pic/image-20200808165201617.png" alt="image-20200808165201617" style="zoom:80%;" /></p>
+  </li>
+  <li>
+    <p>注意到，模型的预测输出是包括已知动作序列在内的整段动作序列 $X_{1:N+T}$</p>
+
+    <blockquote>
+      <p>这样设计有什么好处？可能是为了使生成的动作序列从总体上看更加平滑</p>
+    </blockquote>
+  </li>
+</ul>
+
+<h2 id="experiments">Experiments</h2>
+
+<blockquote>
+  <p>与之前的笔记相同，下面只提及部分实验结果</p>
+</blockquote>
+
+<ul>
+  <li>
+    <p>主流的评估误差的方式有两种：(1) 基于欧拉角，(2) 基于3D坐标</p>
+  </li>
+  <li>
+    <p>实验分析高误差样本时发现，在指标 (1) 下误差大的样本，在指标 (2) 下并不一定出现高误差</p>
+
+    <p><img src="../assets/img/2020-08-08-PR3_pic/image-20200808183200654.png" alt="image-20200808183200654" style="zoom:80%;" /></p>
+
+    <p>如上图，在指标 (1) 下，三种方法在同一个样本上表现出的误差相似，但在指标 (2) 下，有两种方法的误差明显更小</p>
+
+    <blockquote>
+      <p>这是由于在角度空间中，动作的表示具有二义性，因此 (1) 可能并不是一个好的评价指标</p>
+    </blockquote>
+
+    <p><br /></p>
+  </li>
+  <li>
+    <p><strong>消蚀学习</strong></p>
+
+    <ul>
+      <li>
+        <p>验证 DCT 建模时间信息的有效性</p>
+
+        <p>验证残差学习的有效性 (以复制最后一个时刻的姿态作序列padding)</p>
+
+        <p>验证网络残差连接的有效性</p>
+
+        <p><img src="../assets/img/2020-08-08-PR3_pic/image-20200808184659133.png" alt="image-20200808184659133" style="zoom:80%;" /></p>
+
+        <blockquote>
+          <p>上半部分为指标 (1) 的结果，根据前面的分析，可以以下半部分指标 (2) 的结果为准</p>
+
+          <p>观察可知，</p>
+
+          <p>1）去掉上述任一模块都将导致模型性能下降，故有效性得证</p>
+
+          <p>2）对模型性能影响最大的是 padding 操作</p>
+        </blockquote>
+
+        <p><br /></p>
+      </li>
+      <li>
+        <p>对比 GCN 与 全连接网络</p>
+
+        <p>验证允许网络自适应调整连通权重的有效性 (即令 $A$ 可训练)</p>
+
+        <p><img src="../assets/img/2020-08-08-PR3_pic/image-20200808185135652.png" alt="image-20200808185135652" style="zoom:80%;" /></p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+
+
+<span class="post-date">
+  Written on
+  
+  August
+  8th,
+  2020
+  by
+  
+    mettyz
+  
+</span>
+
+<!-- <div class="post-date">Feel free to share!</div>
+  <div class="sharing-icons">
+    <a href="https://twitter.com/intent/tweet?text=Paper Reading Record 3&amp;url=/PR3.html" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=/PR3.html&amp;title=Paper Reading Record 3" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=/PR3.html" target="_blank"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
+  </div>
+</div>
+ -->
+
+<!--<div class="related">
+  <h1 >You may also enjoy:</h1>
+  
+  <ul class="related-posts">
+    
+  </ul>
+</div>
+ -->
+
+
+
+    </div>
+
+    <footer class="footer">
+  
+  
+  
+    <a href="https://www.github.com/mettyz" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="mailto:1243049625@qq.com" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="/feed.xml"><i class="fa fa-rss-square" aria-hidden="true"></i></a>
+  
+
+  <div class="post-date"><a href="/menu/about.html">MettyZ's Blog | Seize the day</a></div>
+</footer>
+
+  </div>
+
+</body>
+</html>

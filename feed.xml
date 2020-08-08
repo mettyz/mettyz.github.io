@@ -1,4 +1,392 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2020-08-07T00:52:11+08:00</updated><id>/feed.xml</id><title type="html">MettyZ’s Blog</title><subtitle></subtitle><author><name>mettyz</name></author><entry><title type="html">Paper Reading Record 2</title><link href="/PR2.html" rel="alternate" type="text/html" title="Paper Reading Record 2" /><published>2020-08-06T00:00:00+08:00</published><updated>2020-08-06T00:00:00+08:00</updated><id>/PR2</id><content type="html" xml:base="/PR2.html">&lt;p&gt;QuaterNet: A Quaternion-based Recurrent Model for Human Motion &lt;a href=&quot;https://arxiv.org/pdf/1805.06485.pdf&quot;&gt;[Paper]&lt;/a&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2020-08-08T19:26:59+08:00</updated><id>/feed.xml</id><title type="html">MettyZ’s Blog</title><subtitle></subtitle><author><name>mettyz</name></author><entry><title type="html">Paper Reading Record 3</title><link href="/PR3.html" rel="alternate" type="text/html" title="Paper Reading Record 3" /><published>2020-08-08T00:00:00+08:00</published><updated>2020-08-08T00:00:00+08:00</updated><id>/PR3</id><content type="html" xml:base="/PR3.html">&lt;p&gt;(CVPR2019) &lt;a href=&quot;https://arxiv.org/pdf/1908.05436v3.pdf&quot;&gt;[Paper]&lt;/a&gt;&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;写在前面：文中包含个人理解，不保证正确，如理解有误，欢迎指正。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;main-idea&quot;&gt;Main Idea&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;使用 DCT 系数编码各个关节点在&lt;strong&gt;时序&lt;/strong&gt;上的信息&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;使用 GCN 建模关节点的&lt;strong&gt;空间&lt;/strong&gt;关联，且允许网络自适应地调整任意关节点间的连通权重&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;提出由于角度空间的表示存在二义性，基于欧拉角的评估标准不可靠&lt;/p&gt;
+
+    &lt;p&gt;建议今后的工作采用基于3D位置的评估标准&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;基于RNN的方法存在的问题&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;并行能力差，训练难度较大&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;若每帧输入上帧预测结果，误差可能随着序列累积&lt;/p&gt;
+
+        &lt;p&gt;若每帧输入GT监督，则易出现预测动作的不连续&lt;/p&gt;
+
+        &lt;blockquote&gt;
+          &lt;p&gt;&lt;em&gt;curriculum learning strategy&lt;/em&gt;&lt;/p&gt;
+
+          &lt;p&gt;以一定概率输入GT作为教师监督，否则输入前一步预测结果&lt;/p&gt;
+
+          &lt;p&gt;该策略可在一定程度上缓解上述问题&lt;/p&gt;
+        &lt;/blockquote&gt;
+
+        &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;如何编码时序信息&lt;/strong&gt;，是前馈神经网络在处理时序相关问题时必须考虑的问题&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;现有方法：通过在时序维度上进行卷积，但这将很大程度上依赖于卷积核的大小&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;&lt;strong&gt;本文方法：在轨迹空间中建模运动（而非姿态空间中）&lt;/strong&gt;&lt;/p&gt;
+
+        &lt;p&gt;更具体地，采用 离散余弦变换 (DCT) 编码时序信息，建模每个关节点的变化轨迹&lt;/p&gt;
+
+        &lt;blockquote&gt;
+          &lt;p&gt;&lt;strong&gt;离散余弦变换 Discrete Cosine Transform&lt;/strong&gt;&lt;/p&gt;
+
+          &lt;p&gt;形式上看，DCT是一个线性可逆函数 $F:R^n\to R^n$&lt;/p&gt;
+
+          &lt;p&gt;&lt;img src=&quot;../assets/img/2020-08-08-PR3_pic/image-20200807193035539.png&quot; alt=&quot;image-20200807193035539&quot; style=&quot;zoom: 80%;&quot; /&gt;&lt;/p&gt;
+
+          &lt;p&gt;进一步，将 $f_0$ 乘以 $\frac{1}{\sqrt{2}}$ ，将使得DCT-II 成为正交矩阵。&lt;/p&gt;
+
+          &lt;p&gt;​																					—— &lt;em&gt;From &lt;a href=&quot;https://zh.wikipedia.org/wiki/离散余弦变换&quot;&gt;Wiki&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+        &lt;/blockquote&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;如何编码关节点间的空间依赖关系&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;现有方法及缺陷&lt;/p&gt;
+
+        &lt;p&gt;​	1）基于骨架，无法建模远距离依赖&lt;/p&gt;
+
+        &lt;p&gt;​	2）基于空间卷积，依赖于卷积核的大小&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;&lt;strong&gt;本文方法：图卷积，且允许网络自主学习节点间的连通关系&lt;/strong&gt;，而非预定义图的连接，从而能够解决上述两种问题&lt;/p&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;related-works&quot;&gt;Related Works&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;基于对抗网络的模型&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;主要思想：迫使生成器生成平滑的动作序列，使判别器无法分辨&lt;/p&gt;
+
+        &lt;blockquote&gt;
+          &lt;p&gt;是对RNN模型预测动作不连续问题的一种解决办法&lt;/p&gt;
+        &lt;/blockquote&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;缺陷：模型较复杂，训练难度较大，且难以扩展到新的数据集&lt;/p&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;图卷积网络 GCNs&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;笔者对该领域暂不熟悉，下面简单直译论文的描述，仅作为阅读记录&lt;/p&gt;
+    &lt;/blockquote&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;GCN 领域的主要研究成果可分为 光谱(spectral) 与 非光谱(non-spectral) 方法&lt;/p&gt;
+
+        &lt;ul&gt;
+          &lt;li&gt;
+            &lt;p&gt;&lt;strong&gt;spectral 代表&lt;/strong&gt;&lt;/p&gt;
+
+            &lt;p&gt;[1] Thomas N Kipf and Max Welling. Semi-supervised classification with graph convolutional networks. In ICLR, 2017.&lt;/p&gt;
+
+            &lt;blockquote&gt;
+              &lt;p&gt;采用基于图结构的 filters，这使得该方法的泛化能力受限&lt;/p&gt;
+            &lt;/blockquote&gt;
+          &lt;/li&gt;
+          &lt;li&gt;
+            &lt;p&gt;&lt;strong&gt;non-spectral 代表&lt;/strong&gt;&lt;/p&gt;
+
+            &lt;p&gt;[2] Petar Veliˇckovi´c, Guillem Cucurull, Arantxa Casanova, Adriana Romero, Pietro Lio, and Yoshua Bengio. Graph attention networks. In ICLR, 2018.&lt;/p&gt;
+
+            &lt;blockquote&gt;
+              &lt;p&gt;通过自监督的方式决定图的连接，使网络更加灵活&lt;/p&gt;
+            &lt;/blockquote&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+
+        &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;用GCN作行为预测，最简单直接的建图方式就是基于骨架&lt;/p&gt;
+
+        &lt;p&gt;缺陷：无法捕捉不相连的关节间的依赖关系&lt;/p&gt;
+
+        &lt;p&gt;&lt;strong&gt;本文方法受 [2] 启发，允许网络自适应地调整各关节点间的连通权重&lt;/strong&gt;&lt;/p&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;method&quot;&gt;Method&lt;/h2&gt;
+
+&lt;h3 id=&quot;task&quot;&gt;Task&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;已知动作序列 $X_{1:N}=[x_1,x_2,\dots, x_N]$，由 $N$ 个连续的人体姿态组成&lt;/p&gt;
+
+    &lt;p&gt;其中，$x_i\in R^K$，$K$ 为关节点个数&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;预测 $X_{N+1:N+T}$ ，即未来 $T$ 个时间步的动作序列&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;$X_{1:N}$ 的单列表示一个时刻的人体姿态，单行则表示一个关节点在 $N$ 时间步内的运动情况&lt;/p&gt;
+
+    &lt;p&gt;记第 $k$ 个关节点对应的行为 $\widetilde x_k = (x_{k,1},x_{k,2},\dots,x_{k,N})$&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;temporal-encoding&quot;&gt;Temporal Encoding&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;主要思想&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;将DCT系数作为动作序列的一种编码，旨在捕捉每个关节点的运动模式&lt;/li&gt;
+      &lt;li&gt;实验证实，通过丢弃高频项，DCT系数提供了一个更加紧凑的表示，能较好地捕捉到人体运动的平滑性&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;编码&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;p&gt;给定轨迹 $\widetilde x_k$，时间步 $l$ 对应的DCT系数可以表示为&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;../assets/img/2020-08-08-PR3_pic/image-20200808111235452.png&quot; alt=&quot;image-20200808111235452&quot; style=&quot;zoom: 80%;&quot; /&gt;&lt;/p&gt;
+
+    &lt;p&gt;其中，$\delta_{l1}$ 只在 $l=1$ 时取值为1，否则取值为0 【数学细节，用于使DCT-II 成为正交矩阵】&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;对 $l\in{1,2,…,N}$，过滤其中较大的值，在当前任务背景下可以理解为移除高频运动&lt;/p&gt;
+
+      &lt;p&gt;【不是很理解】&lt;/p&gt;
+    &lt;/blockquote&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;解码&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;p&gt;给定DCT系数，原始姿态表示能够通过 逆DCT (IDCT) 变换获得&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;../assets/img/2020-08-08-PR3_pic/image-20200808112415731.png&quot; alt=&quot;image-20200808112415731&quot; style=&quot;zoom:80%;&quot; /&gt;&lt;/p&gt;
+
+    &lt;p&gt;同样， $n\in{1,2,…,N}$&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;注：若保留所有DCT系数，DCT 与 IDCT 变换前后为无损转换，但截断一些高频项能够防止生成抖动的运动 ( jittery motion )&lt;/p&gt;
+    &lt;/blockquote&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;主要步骤&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;给定动作序列 $X_{1:N}$&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;将最后一帧 $x_N$ 复制 $T$ 次，构成总长度为 $N+T$ 的动作序列&lt;/p&gt;
+
+        &lt;blockquote&gt;
+          &lt;p&gt;将这一复制操作生成的序列作为原始输入，添加残差连接，迫使模型学习“变化”&lt;/p&gt;
+        &lt;/blockquote&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;计算该序列的DCT系数作为输入，模型生成预测输出 $X_{1:N+T}$&lt;/p&gt;
+
+        &lt;blockquote&gt;
+          &lt;p&gt;输入可以有两种形式：&lt;/p&gt;
+
+          &lt;p&gt;1）将所有关节点的DCT表示堆叠为一个向量&lt;/p&gt;
+
+          &lt;p&gt;2）构成一个 $K×L$ 的矩阵，其中，$K$ 为关节点数，$L$ 为保留的DCT系数数量&lt;/p&gt;
+        &lt;/blockquote&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;spatial-encoding&quot;&gt;Spatial Encoding&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;主要思想&lt;/strong&gt;：采用图卷积网络编码空间依赖，允许网络自适应调整连通权重&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;主要步骤&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;初始，假设人体为由 $K$ 个关节点构成的全连接图&lt;/p&gt;
+
+        &lt;p&gt;各连接边的强度由 带权邻接矩阵 $A\in R^{K×K}$ 表示&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;一个图卷积层 $p$ 输入矩阵 $H^{(p)}\in R^{K×F}$ ，在权重矩阵 $W^{(p)}\in R^{F×\hat{F}}$ 的作用下，&lt;/p&gt;
+
+        &lt;p&gt;输出为 $H^{(p+1)}=\sigma(A^{(p)}H^{(p)}W^{(p)})$&lt;/p&gt;
+
+        &lt;blockquote&gt;
+          &lt;p&gt;其中，$F$ 为前一层的输出特征数，$A,W$ 为可训练的参数矩阵，$\sigma(\cdot)$ 为激活函数&lt;/p&gt;
+
+          &lt;p&gt;$A$ 理解为任意两关节点间的相互作用关系&lt;/p&gt;
+
+          &lt;p&gt;$W$ 类比全连接网络中，对各特征进行线性组合，输出特征维度为 $\hat{F}$&lt;/p&gt;
+        &lt;/blockquote&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;堆叠图卷积层，并添加残差连接&lt;/p&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;network-structure&quot;&gt;Network Structure&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;../assets/img/2020-08-08-PR3_pic/image-20200808154133786.png&quot; alt=&quot;image-20200808154133786&quot; style=&quot;zoom:80%;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;外层残差连接，如之前所述，希望网络对 DCT 的”变化”进行建模&lt;/li&gt;
+  &lt;li&gt;内层残差连接，则类比传统ResNet中残差边的作用，主要作用是使深度网络的能力不退化&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;training&quot;&gt;Training&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;对角度表示，采用 $l_1$ 损失函数计算平均损失&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;../assets/img/2020-08-08-PR3_pic/image-20200808164738904.png&quot; alt=&quot;image-20200808164738904&quot; style=&quot;zoom:80%;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;对3D坐标表示，计算平均关节位置损失 (MPJPE: Mean Per Joint Position Error)&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;../assets/img/2020-08-08-PR3_pic/image-20200808165201617.png&quot; alt=&quot;image-20200808165201617&quot; style=&quot;zoom:80%;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;注意到，模型的预测输出是包括已知动作序列在内的整段动作序列 $X_{1:N+T}$&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;这样设计有什么好处？可能是为了使生成的动作序列从总体上看更加平滑&lt;/p&gt;
+    &lt;/blockquote&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;experiments&quot;&gt;Experiments&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;与之前的笔记相同，下面只提及部分实验结果&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;主流的评估误差的方式有两种：(1) 基于欧拉角，(2) 基于3D坐标&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;实验分析高误差样本时发现，在指标 (1) 下误差大的样本，在指标 (2) 下并不一定出现高误差&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;../assets/img/2020-08-08-PR3_pic/image-20200808183200654.png&quot; alt=&quot;image-20200808183200654&quot; style=&quot;zoom:80%;&quot; /&gt;&lt;/p&gt;
+
+    &lt;p&gt;如上图，在指标 (1) 下，三种方法在同一个样本上表现出的误差相似，但在指标 (2) 下，有两种方法的误差明显更小&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;这是由于在角度空间中，动作的表示具有二义性，因此 (1) 可能并不是一个好的评价指标&lt;/p&gt;
+    &lt;/blockquote&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;消蚀学习&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;验证 DCT 建模时间信息的有效性&lt;/p&gt;
+
+        &lt;p&gt;验证残差学习的有效性 (以复制最后一个时刻的姿态作序列padding)&lt;/p&gt;
+
+        &lt;p&gt;验证网络残差连接的有效性&lt;/p&gt;
+
+        &lt;p&gt;&lt;img src=&quot;../assets/img/2020-08-08-PR3_pic/image-20200808184659133.png&quot; alt=&quot;image-20200808184659133&quot; style=&quot;zoom:80%;&quot; /&gt;&lt;/p&gt;
+
+        &lt;blockquote&gt;
+          &lt;p&gt;上半部分为指标 (1) 的结果，根据前面的分析，可以以下半部分指标 (2) 的结果为准&lt;/p&gt;
+
+          &lt;p&gt;观察可知，&lt;/p&gt;
+
+          &lt;p&gt;1）去掉上述任一模块都将导致模型性能下降，故有效性得证&lt;/p&gt;
+
+          &lt;p&gt;2）对模型性能影响最大的是 padding 操作&lt;/p&gt;
+        &lt;/blockquote&gt;
+
+        &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;对比 GCN 与 全连接网络&lt;/p&gt;
+
+        &lt;p&gt;验证允许网络自适应调整连通权重的有效性 (即令 $A$ 可训练)&lt;/p&gt;
+
+        &lt;p&gt;&lt;img src=&quot;../assets/img/2020-08-08-PR3_pic/image-20200808185135652.png&quot; alt=&quot;image-20200808185135652&quot; style=&quot;zoom:80%;&quot; /&gt;&lt;/p&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content><author><name>mettyz</name></author><summary type="html">Human Motion Prediction, 3D-skeleton, DCT, GCN...</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="/PR3.png" /><media:content medium="image" url="/PR3.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Paper Reading Record 2</title><link href="/PR2.html" rel="alternate" type="text/html" title="Paper Reading Record 2" /><published>2020-08-06T00:00:00+08:00</published><updated>2020-08-06T00:00:00+08:00</updated><id>/PR2</id><content type="html" xml:base="/PR2.html">&lt;p&gt;QuaterNet: A Quaternion-based Recurrent Model for Human Motion &lt;a href=&quot;https://arxiv.org/pdf/1805.06485.pdf&quot;&gt;[Paper]&lt;/a&gt;&lt;/p&gt;
 
 &lt;!--more--&gt;
 
@@ -132,13 +520,6 @@
           &lt;li&gt;
             &lt;p&gt;任务分解法：将长期预测任务分解为 1) 定义运动轨迹 2) 用 footsteps 标注轨迹 3) 生成姿态序列&lt;/p&gt;
           &lt;/li&gt;
-          &lt;li&gt;
-            &lt;p&gt;生成模型&lt;/p&gt;
-
-            &lt;blockquote&gt;
-              &lt;p&gt;Jacob Walker, Kenneth Marino, Abhinav Gupta, and Martial Hebert. The pose knows: Video forecasting by generating pose futures. International Conference on Computer Vision (ICCV), 2017. 【待阅读】&lt;/p&gt;
-            &lt;/blockquote&gt;
-          &lt;/li&gt;
         &lt;/ul&gt;
       &lt;/li&gt;
     &lt;/ul&gt;
@@ -158,7 +539,9 @@
     &lt;p&gt;构建使用双层GRU的自回归模型&lt;/p&gt;
 
     &lt;blockquote&gt;
-      &lt;p&gt;与 [1] 不同，团队发现增加第二层GRU具有经验优势，但不必增加到三层【可以验证一下】，设置 hidden size = 1000&lt;/p&gt;
+      &lt;p&gt;与 [1] 不同，团队发现增加第二层GRU具有经验优势，但不必增加到三层&lt;/p&gt;
+
+      &lt;p&gt;设置 hidden size = 1000&lt;/p&gt;
     &lt;/blockquote&gt;
 
     &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
