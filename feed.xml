@@ -1,4 +1,480 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2020-08-08T19:26:59+08:00</updated><id>/feed.xml</id><title type="html">MettyZ’s Blog</title><subtitle></subtitle><author><name>mettyz</name></author><entry><title type="html">Paper Reading Record 3</title><link href="/PR3.html" rel="alternate" type="text/html" title="Paper Reading Record 3" /><published>2020-08-08T00:00:00+08:00</published><updated>2020-08-08T00:00:00+08:00</updated><id>/PR3</id><content type="html" xml:base="/PR3.html">&lt;p&gt;(CVPR2019) &lt;a href=&quot;https://arxiv.org/pdf/1908.05436v3.pdf&quot;&gt;[Paper]&lt;/a&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2020-08-12T11:01:18+08:00</updated><id>/feed.xml</id><title type="html">MettyZ’s Blog</title><subtitle></subtitle><author><name>mettyz</name></author><entry><title type="html">Paper Reading Record 4</title><link href="/PR4.html" rel="alternate" type="text/html" title="Paper Reading Record 4" /><published>2020-08-10T00:00:00+08:00</published><updated>2020-08-10T00:00:00+08:00</updated><id>/PR4</id><content type="html" xml:base="/PR4.html">&lt;p&gt;(CVPR2020) &lt;a href=&quot;https://openaccess.thecvf.com/content_CVPR_2020/papers/Liu_Disentangling_and_Unifying_Graph_Convolutions_for_Skeleton-Based_Action_Recognition_CVPR_2020_paper.pdf&quot;&gt;[Paper]&lt;/a&gt;&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;写在前面：文中包含个人理解，不保证正确，如理解有误，欢迎指正。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;main-idea&quot;&gt;Main Idea&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;提出可用于捕获人体长距离依赖，并解决 biased weighting problem 的多尺度特征提取范式&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;核心：定义基于最短连通距离的 k - 邻接矩阵&lt;/p&gt;
+    &lt;/blockquote&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;提出可同时提取时空信息的 G3D 模型，能够捕获跨时空的节点依赖关系&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;综合得到一个强有力的时空特征提取器 MS-G3D&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;glossary&quot;&gt;Glossary&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Spatial-temporal graph：指包含多帧的一组图像&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;cross-spacetime&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;skeleton-based human action recognition&lt;/p&gt;
+
+    &lt;p&gt;根据人体动作的骨架表示识别动作，而不是基于原始视频&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;优势：避免环境干扰，使模型更加关注于建模分辨行为的特征&lt;/p&gt;
+    &lt;/blockquote&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;biased weighting problem：指现有长距离特征提取方法存在的权重偏好问题，提取到的特征将受近距离节点主导&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;related-work&quot;&gt;Related Work&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;GCN 开山之作&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;[1] Thomas N Kipf and Max Welling. &lt;em&gt;Semi-supervised classification with graph convolutional networks.&lt;/em&gt; arXiv preprint arXiv:1609.02907, 2016.&lt;/p&gt;
+    &lt;/blockquote&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Multi-Scale Graph Convolution&lt;/strong&gt; 旨在使网络能够捕捉到不同感受野的特征信息&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;现有方法：构造邻接矩阵的高阶多项式&lt;/p&gt;
+
+        &lt;blockquote&gt;
+          &lt;p&gt;直观上，更高的阶数能够对应更大的感受野&lt;/p&gt;
+        &lt;/blockquote&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;缺陷：存在权重偏好问题 (biased weighting problem)&lt;/p&gt;
+
+        &lt;blockquote&gt;
+          &lt;p&gt;由于无向图存在环路，近邻节点将在更多不同阶数的项中起作用&lt;/p&gt;
+
+          &lt;p&gt;即，提取出的特征向量依然很大程度上受近邻节点特征主导&lt;/p&gt;
+        &lt;/blockquote&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;method&quot;&gt;Method&lt;/h2&gt;
+
+&lt;h3 id=&quot;notations&quot;&gt;Notations&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;$A\in R^{N×N}$，邻接矩阵，其中 $N$ 为关节点总数&lt;/p&gt;
+
+    &lt;p&gt;若关节点 $v_i,v_j$ 直接相连，有 $A_{i,j}=1$，否则为 0，易知 $A$ 为对称矩阵&lt;/p&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;$X\in R^{T×N×C}$ ，特征张量，其中 $T$ 为动作序列总帧数(骨架图数)，$C$ 为特征张量的维度&lt;/p&gt;
+
+    &lt;p&gt;记 $X_{t,n}$ 为时间步 $t$ 时刻第 $n$ 个关节点的 $C$ 维特征向量&lt;/p&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;$\Theta^{(l)}\in R^{C^l×C^{l+1}}$ ，第 $l$ 层 GCN 的参数，$C^l$, $C^{l+1}$ 分别为输入/输出特征向量的维度&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;GCN卷积层更新基础框架&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;../assets/img/2020-08-10-PR4_pic/image-20200810160350013.png&quot; alt=&quot;image-20200810160350013&quot; style=&quot;zoom: 67%;&quot; /&gt;&lt;/p&gt;
+
+    &lt;p&gt;其中，$\tilde{A}=A+I$ 为增加自环的邻接矩阵，$\tilde{D}$ 为 $\tilde{A}$ 的对角度矩阵，$\sigma(\cdot)$ 为激活函数&lt;/p&gt;
+
+    &lt;p&gt;$\tilde D^{-\frac{1}{2}}\tilde A\tilde D^{-\frac{1}{2}}X_t^{(l)}$ 可以直观理解为对直接邻居特征的近似平均&lt;/p&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;disentangled-multi-scale-aggregation&quot;&gt;Disentangled Multi-Scale Aggregation&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;现有方法 (&lt;strong&gt;higher-order polynomials&lt;/strong&gt;) 可以形式化如下&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;../assets/img/2020-08-10-PR4_pic/image-20200810170346458.png&quot; alt=&quot;image-20200810170346458&quot; style=&quot;zoom:67%;&quot; /&gt;&lt;/p&gt;
+
+    &lt;p&gt;表示 $K$ 个不同尺度的聚合，其中 $\hat{A}$ 为对邻接矩阵 $A$ 的归一化处理结果&lt;/p&gt;
+
+    &lt;p&gt;易知，$A_{i,j}^k=A_{j,i}^k=$ $v_i$ 与 $v_j$ 间长度为 $k$ 的通路数&lt;/p&gt;
+
+    &lt;p&gt;因此，$\hat{A}^kX_t^{(l)}$ 直观上可理解为 $t$ 时刻空间特征的加权平均&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;每个节点的新特征都是当前所有节点特征的加权聚合，且到该节点通路数越多的节点，权重将越大&lt;/p&gt;
+    &lt;/blockquote&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Biased Weighting Problem&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;../assets/img/2020-08-10-PR4_pic/image-20200810173217201.png&quot; alt=&quot;image-20200810173217201&quot; style=&quot;zoom:80%;&quot; /&gt;&lt;/p&gt;
+
+    &lt;p&gt;由于无向图中允许环路，对节点 $v$ ，显然距 $v$ 更近的节点，存在到 $v$ 长度为 $k$ 的通路数将越多&lt;/p&gt;
+
+    &lt;p&gt;这就导致根据该方式聚合的特征依旧在很大程度上受邻近节点特征的支配，对远距离依赖的建模能力有限&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;特别是在允许节点自环的情况下，这种偏好问题将更加明显&lt;/p&gt;
+
+      &lt;p&gt;注：颜色越深，表示对中心节点的影响权重越大&lt;/p&gt;
+    &lt;/blockquote&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;解决办法：Disentangling Neighborhoods&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;p&gt;&lt;strong&gt;关键：定义 $k$ - 邻接矩阵 $\tilde{A}_{(k)}$&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;../assets/img/2020-08-10-PR4_pic/image-20200810173808454.png&quot; alt=&quot;image-20200810173808454&quot; style=&quot;zoom:67%;&quot; /&gt;&lt;/p&gt;
+
+    &lt;p&gt;其中， $d(v_i,v_j)$ 为两节点之间的最短路径&lt;/p&gt;
+
+    &lt;p&gt;易知，该矩阵非对角线上取值为1当且仅当连接两节点的&lt;strong&gt;最短路径长度&lt;/strong&gt;为 $k$ ，且有 &lt;img src=&quot;../assets/img/2020-08-10-PR4_pic/image-20200812105725641.png&quot; alt=&quot;image-20200812105725641&quot; style=&quot;zoom: 80%;&quot; /&gt;&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;对角线取值为1用于确保不丢失当前节点已有的特征&lt;/p&gt;
+    &lt;/blockquote&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+    &lt;p&gt;&lt;strong&gt;$k$ - 邻接矩阵的计算&lt;/strong&gt;【巧妙】&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;../assets/img/2020-08-10-PR4_pic/image-20200810175009980.png&quot; alt=&quot;image-20200810175009980&quot; style=&quot;zoom:67%;&quot; /&gt;&lt;/p&gt;
+
+    &lt;p&gt;可视化如下，&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;../assets/img/2020-08-10-PR4_pic/image-20200810175647785.png&quot; alt=&quot;image-20200810175647785&quot; style=&quot;zoom: 80%;&quot; /&gt;&lt;/p&gt;
+
+    &lt;p&gt;&lt;strong&gt;优势：&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;能够更合理地建模远距离的依赖，对更大的尺度 $k$ 同样有效，即提升了聚合操作的可扩展性&lt;/li&gt;
+      &lt;li&gt;所得 $k$ - 邻接矩阵更加稀疏，提升计算效率&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;g3d&quot;&gt;G3D&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;一种对时空特征进行统一建模的策略，增加 Cross-Spacetime Skip Connections&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;现有方法&lt;/strong&gt;：交替堆叠空间/时序模块，类似拆解的三维卷积&lt;/p&gt;
+
+    &lt;p&gt;&lt;strong&gt;缺陷&lt;/strong&gt;：直观上看，该方法对&lt;strong&gt;区域&lt;/strong&gt;时空依赖的建模能力较弱&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;如，对 “站起来” 这一动作，上肢的 “前倾” 与下肢的 “起立” 具有强依赖关系，且这两个子动作是先后发生的，因此，允许不同关节点的信息跨时空地建立关联是更加合理的设计&lt;/p&gt;
+
+      &lt;p&gt;这是先提取同一时刻的空间信息，再建立时序上的关联这样的分离方法难以捕获的&lt;/p&gt;
+    &lt;/blockquote&gt;
+
+    &lt;p&gt;&lt;img src=&quot;../assets/img/2020-08-10-PR4_pic/image-20200809164940094.png&quot; alt=&quot;image-20200809164940094&quot; style=&quot;zoom: 67%;&quot; /&gt;&lt;/p&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;G3D 主要思想：允许跨帧不同关节点的连接&lt;/strong&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;具体实现&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;定义时序上滑动窗口大小为 $\tau$ ，则每步将会获得一个由 $\tau$ 帧构成的时空子图&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;该时空图的 &lt;strong&gt;邻接矩阵&lt;/strong&gt; 初始化定义为&lt;/p&gt;
+
+        &lt;p&gt;&lt;img src=&quot;../assets/img/2020-08-10-PR4_pic/image-20200810185758420.png&quot; alt=&quot;image-20200810185758420&quot; style=&quot;zoom: 67%;&quot; /&gt;&lt;/p&gt;
+
+        &lt;p&gt;即允许每个节点自环连接，且与任意帧的邻接点连接&lt;/p&gt;
+
+        &lt;p&gt;例，对 $\tilde A_{(\tau)i,j}=1$ ，有 $\tilde{A}_{(\tau)i,(j+kN)}=1$&lt;/p&gt;
+
+        &lt;blockquote&gt;
+          &lt;p&gt;可直观理解为两邻接点在时空图中 &lt;strong&gt;一跳可达&lt;/strong&gt; (1-hop)&lt;/p&gt;
+
+        &lt;/blockquote&gt;
+
+        &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;对 $X$ 滑动构造 $T$ 个时空子图，则有 $X_{(\tau)}\in R^{T×\tau N×C}$ ，对应卷积操作如下&lt;/p&gt;
+
+        &lt;p&gt;&lt;img src=&quot;../assets/img/2020-08-10-PR4_pic/image-20200810193921216.png&quot; alt=&quot;image-20200810193921216&quot; style=&quot;zoom:67%;&quot; /&gt;&lt;/p&gt;
+
+        &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Dilated Windows&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;p&gt;注意到，&lt;strong&gt;时空子图中的帧可以不连续&lt;/strong&gt; ，取扩展率 (dilation rate) 为 $d$，&lt;/p&gt;
+
+    &lt;p&gt;即每隔 $d$ 帧采样一帧，则对帧数为 $\tau$ 的时空图，滑动窗口大小扩展为 $d\tau$&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;这一策略进一步扩大了G3D在时序上的感受野，其思想和空洞卷积类似，能够在不增加计算复杂度的同时扩大感受野&lt;/p&gt;
+    &lt;/blockquote&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;multi-scale-g3d&quot;&gt;Multi-Scale G3D&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;将上述两核心策略合并，可得 MS-G3D 模块&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;../assets/img/2020-08-10-PR4_pic/image-20200810200534832.png&quot; alt=&quot;image-20200810200534832&quot; style=&quot;zoom:67%;&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;对比 G3D 与 3D Conv&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;p&gt;相同点：都是对时空信息的联合建模&lt;/p&gt;
+
+    &lt;p&gt;不同点：G3D 的参数 $\Theta\in R^{C_l×C_{l+1}}$ 不依赖于窗口大小 $\tau$ ，而 3D Conv 参数量为 $H×W×T$&lt;/p&gt;
+
+    &lt;p&gt;​				因此，G3D不容易因为 $\tau$ 增大而导致过拟合&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;对 $\tau$ 和 $d$ 的选择&lt;/strong&gt;【需要仔细权衡】&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;更大的 $\tau$ 意味着更强的时空融合能力，能够提取到更一般的特征&lt;/p&gt;
+
+        &lt;p&gt;但扩展的邻接矩阵 $\tilde{A}_{(\tau)}\in R^{\tau N×\tau N}$ 将随 $\tau$ 的增大平方级地扩张，带来更大的计算量&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;更大的 $d$ 意味着更强的时序覆盖能力，但会降低分辨率，导致一定的信息丢失&lt;/p&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;architecture&quot;&gt;Architecture&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;相关缩写&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;p&gt;&lt;strong&gt;ST&lt;/strong&gt;: Spatial-Temporal&lt;/p&gt;
+
+    &lt;p&gt;&lt;strong&gt;TC, GC&lt;/strong&gt;: Temporal / Graph Convolution&lt;/p&gt;
+
+    &lt;p&gt;&lt;strong&gt;MS-&lt;/strong&gt; : Multi-Scale&lt;/p&gt;
+
+    &lt;p&gt;&lt;strong&gt;-D&lt;/strong&gt; : Disentangled aggregation&lt;/p&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;顶层模型&lt;/strong&gt;：输入 $\to$ 时空图卷积 $\to$ 全局平均池化 $\to$ 分类&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;../assets/img/2020-08-10-PR4_pic/image-20200810224405439.png&quot; alt=&quot;image-20200810224405439&quot; style=&quot;zoom:80%;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;​		&lt;br /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;G3D Pathway&lt;/strong&gt; (STGC 模块左侧)&lt;/p&gt;
+
+    &lt;p&gt;构造时空子图 $\to$ MS-G3D $\to$ FC&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;../assets/img/2020-08-10-PR4_pic/image-20200811103803704.png&quot; alt=&quot;image-20200811103803704&quot; style=&quot;zoom: 80%;&quot; /&gt;&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;如(b)图，可以根据需要使用多个不同 $\tau,d$ 取值的MS-G3D模块&lt;/p&gt;
+    &lt;/blockquote&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Factorized Pathway&lt;/strong&gt; (STGC 模块右侧)&lt;/p&gt;
+
+    &lt;p&gt;作为对 G3D Pathway 的增强&lt;/p&gt;
+
+    &lt;p&gt;MS-GCN：为捕获骨架的整体空间特征，在多尺度特征聚合中设置 $K$ 为最大合法值&lt;/p&gt;
+
+    &lt;p&gt;MS-TCN：两个多尺度的纯时序卷积层，用于捕获扩展的时序上下文信息&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;中间 stride = 2 的模块能够对时序维度进行下采样&lt;/p&gt;
+    &lt;/blockquote&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;多尺度时序卷积&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;../assets/img/2020-08-10-PR4_pic/image-20200811094542425.png&quot; alt=&quot;image-20200811094542425&quot; style=&quot;zoom:67%;&quot; /&gt;&lt;/p&gt;
+
+    &lt;p&gt;&lt;strong&gt;设计思路&lt;/strong&gt;：对G3D提取的各个窗口的时空特征，需要在时序上进一步作跨窗口的信息融合&lt;/p&gt;
+
+    &lt;p&gt;&lt;strong&gt;实现方式&lt;/strong&gt;：在时序维度上作不同 dilation rate 的卷积，再将不同尺度的时序信息合并&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;为降低计算复杂度，不改变卷积核大小，通过调整空洞扩张率的方式来增大时序感受野&lt;/p&gt;
+    &lt;/blockquote&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;允许图自适应调整&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;../assets/img/2020-08-10-PR4_pic/image-20200811102959658.png&quot; alt=&quot;image-20200811102959658&quot; style=&quot;zoom: 80%;&quot; /&gt;&lt;/p&gt;
+
+    &lt;p&gt;为进一步增加图模型的灵活性，为每个$k$ - 邻接矩阵附加一个可训练的 mask，记为 $A_{(k)}^{res}$&lt;/p&gt;
+
+    &lt;p&gt;此时图卷积层的更新规则为：&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;../assets/img/2020-08-10-PR4_pic/image-20200811101556305.png&quot; alt=&quot;image-20200811101556305&quot; style=&quot;zoom:67%;&quot; /&gt;&lt;/p&gt;
+
+    &lt;p&gt;对mask随机初始化即可&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;注意，原本的$k$ - 邻接矩阵都是有明确定义的（固定的）&lt;/p&gt;
+
+      &lt;p&gt;因此，添加一个可变的 mask 能够允许网络自适应地调整图的邻接结构&lt;/p&gt;
+
+      &lt;p&gt;上述公式也能简单地扩展到时空子图中使用&lt;/p&gt;
+    &lt;/blockquote&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Joint-Bone Two-Stream Fusion&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;p&gt;对相邻关节点作差能够容易地得到骨架向量&lt;/p&gt;
+
+    &lt;p&gt;采用双流架构，两个分支架构一致，分别输入关节点/骨架进行训练，最后融合分类结果&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;experiments&quot;&gt;Experiments&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;数据集
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;3D骨架：NTU RGB+D 60, NTU RGB+D 120&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;2D骨架：Kinetics Skeleton 400&lt;/p&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;消蚀学习&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;&lt;strong&gt;验证 Disentangled Multi-Scale Aggregation 策略的有效性&lt;/strong&gt;&lt;/p&gt;
+
+        &lt;p&gt;&lt;img src=&quot;../assets/img/2020-08-10-PR4_pic/image-20200811111013773.png&quot; alt=&quot;image-20200811111013773&quot; style=&quot;zoom:80%;&quot; /&gt;&lt;/p&gt;
+
+        &lt;p&gt;&lt;strong&gt;结果分析&lt;/strong&gt;&lt;/p&gt;
+
+        &lt;ul&gt;
+          &lt;li&gt;
+            &lt;p&gt;解构 能够带来一定的效果提升，特别是在更加复杂的G3D结构中，偏差的影响更加显著，-D的作用也更加明显&lt;/p&gt;
+          &lt;/li&gt;
+          &lt;li&gt;
+            &lt;p&gt;Mask 能够带来效果的提升，且对偏差起到一定的修正作用&lt;/p&gt;
+
+            &lt;blockquote&gt;
+              &lt;p&gt;论文中分析说加了Mask以后，可以看到GCN-E与GCN-D的最大gap从1.4降到了0.4&lt;/p&gt;
+
+              &lt;p&gt;但笔者感觉这个实验结果好像不太稳定&lt;/p&gt;
+            &lt;/blockquote&gt;
+          &lt;/li&gt;
+          &lt;li&gt;
+            &lt;p&gt;K 的增加对 GCN 的提升效果更明显，对 G3D K=4 之后就没什么提升了，好像还有点过拟合的趋势&lt;/p&gt;
+
+            &lt;blockquote&gt;
+              &lt;p&gt;论文设置 MS-GCN 的 K=12，MS-G3D的 K=5&lt;/p&gt;
+            &lt;/blockquote&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+
+        &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;&lt;strong&gt;验证 G3D 的有效性&lt;/strong&gt;&lt;/p&gt;
+
+        &lt;p&gt;&lt;img src=&quot;../assets/img/2020-08-10-PR4_pic/image-20200811154946762.png&quot; alt=&quot;image-20200811154946762&quot; style=&quot;zoom:80%;&quot; /&gt;&lt;/p&gt;
+
+        &lt;p&gt;&lt;strong&gt;结果分析&lt;/strong&gt;&lt;/p&gt;
+
+        &lt;ul&gt;
+          &lt;li&gt;
+            &lt;p&gt;将现有双流法2s-AGCN的时序卷积模块替换为本文的方法，作为基线，以便后续对比&lt;/p&gt;
+          &lt;/li&gt;
+          &lt;li&gt;
+            &lt;p&gt;仅使用 Factorized Pathway，模型性能提升，&lt;strong&gt;验证了解构策略的有效性&lt;/strong&gt; (k-邻接矩阵)&lt;/p&gt;
+
+            &lt;blockquote&gt;
+              &lt;p&gt;注意到，&lt;strong&gt;Factorized Pathway&lt;/strong&gt; 采用&lt;strong&gt;时空分离&lt;/strong&gt;的特征提取方式，因此存在性能瓶颈&lt;/p&gt;
+            &lt;/blockquote&gt;
+          &lt;/li&gt;
+          &lt;li&gt;
+            &lt;p&gt;加入MS-G3D后，性能进一步提升，&lt;strong&gt;验证了G3D对时空融合特征提取的有效性&lt;/strong&gt;&lt;/p&gt;
+          &lt;/li&gt;
+          &lt;li&gt;
+            &lt;p&gt;后续两部分对比了不同参数组合的影响，与前面对 $\tau$ 与 $d$ 的分析一致，不再赘述&lt;/p&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;</content><author><name>mettyz</name></author><summary type="html">CVPR2020, Action Recognition, GCN...</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="/PR4.png" /><media:content medium="image" url="/PR4.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Paper Reading Record 3</title><link href="/PR3.html" rel="alternate" type="text/html" title="Paper Reading Record 3" /><published>2020-08-08T00:00:00+08:00</published><updated>2020-08-08T00:00:00+08:00</updated><id>/PR3</id><content type="html" xml:base="/PR3.html">&lt;p&gt;(CVPR2019) &lt;a href=&quot;https://arxiv.org/pdf/1908.05436v3.pdf&quot;&gt;[Paper]&lt;/a&gt;&lt;/p&gt;
 
 &lt;!--more--&gt;
 
@@ -386,7 +862,7 @@
       &lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
-&lt;/ul&gt;</content><author><name>mettyz</name></author><summary type="html">Human Motion Prediction, 3D-skeleton, DCT, GCN...</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="/PR3.png" /><media:content medium="image" url="/PR3.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Paper Reading Record 2</title><link href="/PR2.html" rel="alternate" type="text/html" title="Paper Reading Record 2" /><published>2020-08-06T00:00:00+08:00</published><updated>2020-08-06T00:00:00+08:00</updated><id>/PR2</id><content type="html" xml:base="/PR2.html">&lt;p&gt;QuaterNet: A Quaternion-based Recurrent Model for Human Motion &lt;a href=&quot;https://arxiv.org/pdf/1805.06485.pdf&quot;&gt;[Paper]&lt;/a&gt;&lt;/p&gt;
+&lt;/ul&gt;</content><author><name>mettyz</name></author><summary type="html">CVPR2019, Human Motion Prediction, 3D-skeleton, DCT, GCN...</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="/PR3.png" /><media:content medium="image" url="/PR3.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Paper Reading Record 2</title><link href="/PR2.html" rel="alternate" type="text/html" title="Paper Reading Record 2" /><published>2020-08-06T00:00:00+08:00</published><updated>2020-08-06T00:00:00+08:00</updated><id>/PR2</id><content type="html" xml:base="/PR2.html">&lt;p&gt;QuaterNet: A Quaternion-based Recurrent Model for Human Motion &lt;a href=&quot;https://arxiv.org/pdf/1805.06485.pdf&quot;&gt;[Paper]&lt;/a&gt;&lt;/p&gt;
 
 &lt;!--more--&gt;
 
@@ -700,7 +1176,7 @@
 
 &lt;p&gt;利用WFDR将较强烈的特征畸变变得温和，利用WDBR矫正较温和的特征畸变&lt;/p&gt;
 
-&lt;h2 id=&quot;keywords&quot;&gt;Keywords&lt;/h2&gt;
+&lt;h2 id=&quot;glossary&quot;&gt;Glossary&lt;/h2&gt;
 
 &lt;ul&gt;
   &lt;li&gt;

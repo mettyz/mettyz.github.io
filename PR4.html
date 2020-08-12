@@ -1,0 +1,671 @@
+<!doctype html>
+<html>
+
+<head>
+
+  <title>
+    
+      Paper Reading Record 4 | MettyZ's Blog
+    
+  </title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/syntax.css">
+  <link rel="shortcut icon" type="image/png" href="favicon.png">
+  <!-- Use Atom -->
+  <link type="application/atom+xml" rel="alternate" href="/feed.xml" title="MettyZ's Blog" />
+  <!-- Use RSS-2.0 -->
+  <!--<link href="/rss-feed.xml" type="application/rss+xml" rel="alternate" title="MettyZ's Blog | "/>
+  //-->
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quattrocento+Sans">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+  
+  
+	<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+     TeX: {
+         equationNumbers: {
+             autoNumber: "AMS"
+         }
+     },
+     tex2jax: {
+         inlineMath: [ ['$','$'] ],
+         displayMath: [ ['$$','$$'] ],
+         processEscapes: true,
+     }
+ });
+ </script>
+ <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+ </script>
+  
+  <!-- Google Analytics -->
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+  <!-- Use Jekyll SEO plugin -->
+  <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Paper Reading Record 4 | MettyZ’s Blog</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Paper Reading Record 4" />
+<meta name="author" content="mettyz" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="CVPR2020, Action Recognition, GCN…" />
+<meta property="og:description" content="CVPR2020, Action Recognition, GCN…" />
+<meta property="og:site_name" content="MettyZ’s Blog" />
+<meta property="og:image" content="/PR4.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-08-10T00:00:00+08:00" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"/PR4.html"},"author":{"@type":"Person","name":"mettyz"},"url":"/PR4.html","headline":"Paper Reading Record 4","dateModified":"2020-08-10T00:00:00+08:00","datePublished":"2020-08-10T00:00:00+08:00","description":"CVPR2020, Action Recognition, GCN…","image":"/PR4.png","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+</head>
+
+
+<body>
+
+  <div class="container">
+    <header class="masthead">
+  <h3 class="masthead-title">
+    <a href="/">MettyZ's Blog</a>
+    <small class="masthead-subtitle"></small>
+    <div class="menu">
+  <nav class="menu-content">
+    
+      <a href="/menu/about.html">About</a>
+    
+      <a href="/menu/writing.html">Writing</a>
+    
+      <a href="/menu/contact.html">Contact</a>
+    
+  </nav>
+  <nav class="social-icons">
+    
+  
+  
+    <a href="https://www.github.com/mettyz" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="mailto:1243049625@qq.com" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="/feed.xml"><i class="fa fa-rss-square" aria-hidden="true"></i></a>
+  
+
+  </nav>
+</div>
+
+  </h3>
+</header>
+
+
+    <div class="post-container">
+      <h1>
+  Paper Reading Record 4
+</h1>
+
+
+  <img src="/assets/img/PR4.png">
+
+
+<p>(CVPR2020) <a href="https://openaccess.thecvf.com/content_CVPR_2020/papers/Liu_Disentangling_and_Unifying_Graph_Convolutions_for_Skeleton-Based_Action_Recognition_CVPR_2020_paper.pdf">[Paper]</a></p>
+
+<!--more-->
+
+<blockquote>
+  <p>写在前面：文中包含个人理解，不保证正确，如理解有误，欢迎指正。</p>
+</blockquote>
+
+<h2 id="main-idea">Main Idea</h2>
+
+<ul>
+  <li>
+    <p>提出可用于捕获人体长距离依赖，并解决 biased weighting problem 的多尺度特征提取范式</p>
+
+    <blockquote>
+      <p>核心：定义基于最短连通距离的 k - 邻接矩阵</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>提出可同时提取时空信息的 G3D 模型，能够捕获跨时空的节点依赖关系</p>
+  </li>
+  <li>
+    <p>综合得到一个强有力的时空特征提取器 MS-G3D</p>
+  </li>
+</ul>
+
+<h2 id="glossary">Glossary</h2>
+
+<ul>
+  <li>
+    <p>Spatial-temporal graph：指包含多帧的一组图像</p>
+  </li>
+  <li>
+    <p>cross-spacetime</p>
+  </li>
+  <li>
+    <p>skeleton-based human action recognition</p>
+
+    <p>根据人体动作的骨架表示识别动作，而不是基于原始视频</p>
+
+    <blockquote>
+      <p>优势：避免环境干扰，使模型更加关注于建模分辨行为的特征</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>biased weighting problem：指现有长距离特征提取方法存在的权重偏好问题，提取到的特征将受近距离节点主导</p>
+  </li>
+</ul>
+
+<h2 id="related-work">Related Work</h2>
+
+<ul>
+  <li>
+    <p>GCN 开山之作</p>
+
+    <blockquote>
+      <p>[1] Thomas N Kipf and Max Welling. <em>Semi-supervised classification with graph convolutional networks.</em> arXiv preprint arXiv:1609.02907, 2016.</p>
+    </blockquote>
+
+    <p><br /></p>
+  </li>
+  <li>
+    <p><strong>Multi-Scale Graph Convolution</strong> 旨在使网络能够捕捉到不同感受野的特征信息</p>
+
+    <ul>
+      <li>
+        <p>现有方法：构造邻接矩阵的高阶多项式</p>
+
+        <blockquote>
+          <p>直观上，更高的阶数能够对应更大的感受野</p>
+        </blockquote>
+      </li>
+      <li>
+        <p>缺陷：存在权重偏好问题 (biased weighting problem)</p>
+
+        <blockquote>
+          <p>由于无向图存在环路，近邻节点将在更多不同阶数的项中起作用</p>
+
+          <p>即，提取出的特征向量依然很大程度上受近邻节点特征主导</p>
+        </blockquote>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="method">Method</h2>
+
+<h3 id="notations">Notations</h3>
+
+<ul>
+  <li>
+    <p>$A\in R^{N×N}$，邻接矩阵，其中 $N$ 为关节点总数</p>
+
+    <p>若关节点 $v_i,v_j$ 直接相连，有 $A_{i,j}=1$，否则为 0，易知 $A$ 为对称矩阵</p>
+
+    <p><br /></p>
+  </li>
+  <li>
+    <p>$X\in R^{T×N×C}$ ，特征张量，其中 $T$ 为动作序列总帧数(骨架图数)，$C$ 为特征张量的维度</p>
+
+    <p>记 $X_{t,n}$ 为时间步 $t$ 时刻第 $n$ 个关节点的 $C$ 维特征向量</p>
+
+    <p><br /></p>
+  </li>
+  <li>
+    <p>$\Theta^{(l)}\in R^{C^l×C^{l+1}}$ ，第 $l$ 层 GCN 的参数，$C^l$, $C^{l+1}$ 分别为输入/输出特征向量的维度</p>
+  </li>
+  <li>
+    <p>GCN卷积层更新基础框架</p>
+
+    <p><img src="../assets/img/2020-08-10-PR4_pic/image-20200810160350013.png" alt="image-20200810160350013" style="zoom: 67%;" /></p>
+
+    <p>其中，$\tilde{A}=A+I$ 为增加自环的邻接矩阵，$\tilde{D}$ 为 $\tilde{A}$ 的对角度矩阵，$\sigma(\cdot)$ 为激活函数</p>
+
+    <p>$\tilde D^{-\frac{1}{2}}\tilde A\tilde D^{-\frac{1}{2}}X_t^{(l)}$ 可以直观理解为对直接邻居特征的近似平均</p>
+
+    <p><br /></p>
+  </li>
+</ul>
+
+<h3 id="disentangled-multi-scale-aggregation">Disentangled Multi-Scale Aggregation</h3>
+
+<ul>
+  <li>
+    <p>现有方法 (<strong>higher-order polynomials</strong>) 可以形式化如下</p>
+
+    <p><img src="../assets/img/2020-08-10-PR4_pic/image-20200810170346458.png" alt="image-20200810170346458" style="zoom:67%;" /></p>
+
+    <p>表示 $K$ 个不同尺度的聚合，其中 $\hat{A}$ 为对邻接矩阵 $A$ 的归一化处理结果</p>
+
+    <p>易知，$A_{i,j}^k=A_{j,i}^k=$ $v_i$ 与 $v_j$ 间长度为 $k$ 的通路数</p>
+
+    <p>因此，$\hat{A}^kX_t^{(l)}$ 直观上可理解为 $t$ 时刻空间特征的加权平均</p>
+
+    <blockquote>
+      <p>每个节点的新特征都是当前所有节点特征的加权聚合，且到该节点通路数越多的节点，权重将越大</p>
+    </blockquote>
+
+    <p><br /></p>
+  </li>
+  <li>
+    <p><strong>Biased Weighting Problem</strong></p>
+
+    <p><img src="../assets/img/2020-08-10-PR4_pic/image-20200810173217201.png" alt="image-20200810173217201" style="zoom:80%;" /></p>
+
+    <p>由于无向图中允许环路，对节点 $v$ ，显然距 $v$ 更近的节点，存在到 $v$ 长度为 $k$ 的通路数将越多</p>
+
+    <p>这就导致根据该方式聚合的特征依旧在很大程度上受邻近节点特征的支配，对远距离依赖的建模能力有限</p>
+
+    <blockquote>
+      <p>特别是在允许节点自环的情况下，这种偏好问题将更加明显</p>
+
+      <p>注：颜色越深，表示对中心节点的影响权重越大</p>
+    </blockquote>
+
+    <p><br /></p>
+  </li>
+  <li>
+    <p><strong>解决办法：Disentangling Neighborhoods</strong></p>
+
+    <p><strong>关键：定义 $k$ - 邻接矩阵 $\tilde{A}_{(k)}$</strong></p>
+
+    <p><img src="../assets/img/2020-08-10-PR4_pic/image-20200810173808454.png" alt="image-20200810173808454" style="zoom:67%;" /></p>
+
+    <p>其中， $d(v_i,v_j)$ 为两节点之间的最短路径</p>
+
+    <p>易知，该矩阵非对角线上取值为1当且仅当连接两节点的<strong>最短路径长度</strong>为 $k$ ，且有 <img src="../assets/img/2020-08-10-PR4_pic/image-20200812105725641.png" alt="image-20200812105725641" style="zoom: 80%;" /></p>
+
+    <blockquote>
+      <p>对角线取值为1用于确保不丢失当前节点已有的特征</p>
+    </blockquote>
+
+    <p><br /></p>
+
+    <p><strong>$k$ - 邻接矩阵的计算</strong>【巧妙】</p>
+
+    <p><img src="../assets/img/2020-08-10-PR4_pic/image-20200810175009980.png" alt="image-20200810175009980" style="zoom:67%;" /></p>
+
+    <p>可视化如下，</p>
+
+    <p><img src="../assets/img/2020-08-10-PR4_pic/image-20200810175647785.png" alt="image-20200810175647785" style="zoom: 80%;" /></p>
+
+    <p><strong>优势：</strong></p>
+
+    <ul>
+      <li>能够更合理地建模远距离的依赖，对更大的尺度 $k$ 同样有效，即提升了聚合操作的可扩展性</li>
+      <li>所得 $k$ - 邻接矩阵更加稀疏，提升计算效率</li>
+    </ul>
+
+    <p><br /></p>
+  </li>
+</ul>
+
+<h3 id="g3d">G3D</h3>
+
+<ul>
+  <li>
+    <p>一种对时空特征进行统一建模的策略，增加 Cross-Spacetime Skip Connections</p>
+  </li>
+  <li>
+    <p><strong>现有方法</strong>：交替堆叠空间/时序模块，类似拆解的三维卷积</p>
+
+    <p><strong>缺陷</strong>：直观上看，该方法对<strong>区域</strong>时空依赖的建模能力较弱</p>
+
+    <blockquote>
+      <p>如，对 “站起来” 这一动作，上肢的 “前倾” 与下肢的 “起立” 具有强依赖关系，且这两个子动作是先后发生的，因此，允许不同关节点的信息跨时空地建立关联是更加合理的设计</p>
+
+      <p>这是先提取同一时刻的空间信息，再建立时序上的关联这样的分离方法难以捕获的</p>
+    </blockquote>
+
+    <p><img src="../assets/img/2020-08-10-PR4_pic/image-20200809164940094.png" alt="image-20200809164940094" style="zoom: 67%;" /></p>
+
+    <p><br /></p>
+  </li>
+  <li>
+    <p><strong>G3D 主要思想：允许跨帧不同关节点的连接</strong></p>
+  </li>
+  <li>
+    <p><strong>具体实现</strong></p>
+
+    <ul>
+      <li>
+        <p>定义时序上滑动窗口大小为 $\tau$ ，则每步将会获得一个由 $\tau$ 帧构成的时空子图</p>
+      </li>
+      <li>
+        <p>该时空图的 <strong>邻接矩阵</strong> 初始化定义为</p>
+
+        <p><img src="../assets/img/2020-08-10-PR4_pic/image-20200810185758420.png" alt="image-20200810185758420" style="zoom: 67%;" /></p>
+
+        <p>即允许每个节点自环连接，且与任意帧的邻接点连接</p>
+
+        <p>例，对 $\tilde A_{(\tau)i,j}=1$ ，有 $\tilde{A}_{(\tau)i,(j+kN)}=1$</p>
+
+        <blockquote>
+          <p>可直观理解为两邻接点在时空图中 <strong>一跳可达</strong> (1-hop)</p>
+
+        </blockquote>
+
+        <p><br /></p>
+      </li>
+      <li>
+        <p>对 $X$ 滑动构造 $T$ 个时空子图，则有 $X_{(\tau)}\in R^{T×\tau N×C}$ ，对应卷积操作如下</p>
+
+        <p><img src="../assets/img/2020-08-10-PR4_pic/image-20200810193921216.png" alt="image-20200810193921216" style="zoom:67%;" /></p>
+
+        <p><br /></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Dilated Windows</strong></p>
+
+    <p>注意到，<strong>时空子图中的帧可以不连续</strong> ，取扩展率 (dilation rate) 为 $d$，</p>
+
+    <p>即每隔 $d$ 帧采样一帧，则对帧数为 $\tau$ 的时空图，滑动窗口大小扩展为 $d\tau$</p>
+
+    <blockquote>
+      <p>这一策略进一步扩大了G3D在时序上的感受野，其思想和空洞卷积类似，能够在不增加计算复杂度的同时扩大感受野</p>
+    </blockquote>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="multi-scale-g3d">Multi-Scale G3D</h3>
+
+<ul>
+  <li>
+    <p>将上述两核心策略合并，可得 MS-G3D 模块</p>
+
+    <p><img src="../assets/img/2020-08-10-PR4_pic/image-20200810200534832.png" alt="image-20200810200534832" style="zoom:67%;" /></p>
+  </li>
+  <li>
+    <p><strong>对比 G3D 与 3D Conv</strong></p>
+
+    <p>相同点：都是对时空信息的联合建模</p>
+
+    <p>不同点：G3D 的参数 $\Theta\in R^{C_l×C_{l+1}}$ 不依赖于窗口大小 $\tau$ ，而 3D Conv 参数量为 $H×W×T$</p>
+
+    <p>​				因此，G3D不容易因为 $\tau$ 增大而导致过拟合</p>
+  </li>
+  <li>
+    <p><strong>对 $\tau$ 和 $d$ 的选择</strong>【需要仔细权衡】</p>
+
+    <ul>
+      <li>
+        <p>更大的 $\tau$ 意味着更强的时空融合能力，能够提取到更一般的特征</p>
+
+        <p>但扩展的邻接矩阵 $\tilde{A}_{(\tau)}\in R^{\tau N×\tau N}$ 将随 $\tau$ 的增大平方级地扩张，带来更大的计算量</p>
+      </li>
+      <li>
+        <p>更大的 $d$ 意味着更强的时序覆盖能力，但会降低分辨率，导致一定的信息丢失</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="architecture">Architecture</h2>
+
+<ul>
+  <li>
+    <p><strong>相关缩写</strong></p>
+
+    <p><strong>ST</strong>: Spatial-Temporal</p>
+
+    <p><strong>TC, GC</strong>: Temporal / Graph Convolution</p>
+
+    <p><strong>MS-</strong> : Multi-Scale</p>
+
+    <p><strong>-D</strong> : Disentangled aggregation</p>
+
+    <p><br /></p>
+  </li>
+  <li>
+    <p><strong>顶层模型</strong>：输入 $\to$ 时空图卷积 $\to$ 全局平均池化 $\to$ 分类</p>
+  </li>
+</ul>
+
+<p><img src="../assets/img/2020-08-10-PR4_pic/image-20200810224405439.png" alt="image-20200810224405439" style="zoom:80%;" /></p>
+
+<p>​		<br /></p>
+
+<ul>
+  <li>
+    <p><strong>G3D Pathway</strong> (STGC 模块左侧)</p>
+
+    <p>构造时空子图 $\to$ MS-G3D $\to$ FC</p>
+
+    <p><img src="../assets/img/2020-08-10-PR4_pic/image-20200811103803704.png" alt="image-20200811103803704" style="zoom: 80%;" /></p>
+
+    <blockquote>
+      <p>如(b)图，可以根据需要使用多个不同 $\tau,d$ 取值的MS-G3D模块</p>
+    </blockquote>
+
+    <p><br /></p>
+  </li>
+  <li>
+    <p><strong>Factorized Pathway</strong> (STGC 模块右侧)</p>
+
+    <p>作为对 G3D Pathway 的增强</p>
+
+    <p>MS-GCN：为捕获骨架的整体空间特征，在多尺度特征聚合中设置 $K$ 为最大合法值</p>
+
+    <p>MS-TCN：两个多尺度的纯时序卷积层，用于捕获扩展的时序上下文信息</p>
+
+    <blockquote>
+      <p>中间 stride = 2 的模块能够对时序维度进行下采样</p>
+    </blockquote>
+
+    <p><br /></p>
+  </li>
+  <li>
+    <p><strong>多尺度时序卷积</strong></p>
+
+    <p><img src="../assets/img/2020-08-10-PR4_pic/image-20200811094542425.png" alt="image-20200811094542425" style="zoom:67%;" /></p>
+
+    <p><strong>设计思路</strong>：对G3D提取的各个窗口的时空特征，需要在时序上进一步作跨窗口的信息融合</p>
+
+    <p><strong>实现方式</strong>：在时序维度上作不同 dilation rate 的卷积，再将不同尺度的时序信息合并</p>
+
+    <blockquote>
+      <p>为降低计算复杂度，不改变卷积核大小，通过调整空洞扩张率的方式来增大时序感受野</p>
+    </blockquote>
+
+    <p><br /></p>
+  </li>
+  <li>
+    <p><strong>允许图自适应调整</strong></p>
+
+    <p><img src="../assets/img/2020-08-10-PR4_pic/image-20200811102959658.png" alt="image-20200811102959658" style="zoom: 80%;" /></p>
+
+    <p>为进一步增加图模型的灵活性，为每个$k$ - 邻接矩阵附加一个可训练的 mask，记为 $A_{(k)}^{res}$</p>
+
+    <p>此时图卷积层的更新规则为：</p>
+
+    <p><img src="../assets/img/2020-08-10-PR4_pic/image-20200811101556305.png" alt="image-20200811101556305" style="zoom:67%;" /></p>
+
+    <p>对mask随机初始化即可</p>
+
+    <blockquote>
+      <p>注意，原本的$k$ - 邻接矩阵都是有明确定义的（固定的）</p>
+
+      <p>因此，添加一个可变的 mask 能够允许网络自适应地调整图的邻接结构</p>
+
+      <p>上述公式也能简单地扩展到时空子图中使用</p>
+    </blockquote>
+
+    <p><br /></p>
+  </li>
+  <li>
+    <p><strong>Joint-Bone Two-Stream Fusion</strong></p>
+
+    <p>对相邻关节点作差能够容易地得到骨架向量</p>
+
+    <p>采用双流架构，两个分支架构一致，分别输入关节点/骨架进行训练，最后融合分类结果</p>
+  </li>
+</ul>
+
+<h2 id="experiments">Experiments</h2>
+
+<ul>
+  <li>数据集
+    <ul>
+      <li>
+        <p>3D骨架：NTU RGB+D 60, NTU RGB+D 120</p>
+      </li>
+      <li>
+        <p>2D骨架：Kinetics Skeleton 400</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>消蚀学习</strong></p>
+
+    <ul>
+      <li>
+        <p><strong>验证 Disentangled Multi-Scale Aggregation 策略的有效性</strong></p>
+
+        <p><img src="../assets/img/2020-08-10-PR4_pic/image-20200811111013773.png" alt="image-20200811111013773" style="zoom:80%;" /></p>
+
+        <p><strong>结果分析</strong></p>
+
+        <ul>
+          <li>
+            <p>解构 能够带来一定的效果提升，特别是在更加复杂的G3D结构中，偏差的影响更加显著，-D的作用也更加明显</p>
+          </li>
+          <li>
+            <p>Mask 能够带来效果的提升，且对偏差起到一定的修正作用</p>
+
+            <blockquote>
+              <p>论文中分析说加了Mask以后，可以看到GCN-E与GCN-D的最大gap从1.4降到了0.4</p>
+
+              <p>但笔者感觉这个实验结果好像不太稳定</p>
+            </blockquote>
+          </li>
+          <li>
+            <p>K 的增加对 GCN 的提升效果更明显，对 G3D K=4 之后就没什么提升了，好像还有点过拟合的趋势</p>
+
+            <blockquote>
+              <p>论文设置 MS-GCN 的 K=12，MS-G3D的 K=5</p>
+            </blockquote>
+          </li>
+        </ul>
+
+        <p><br /></p>
+      </li>
+      <li>
+        <p><strong>验证 G3D 的有效性</strong></p>
+
+        <p><img src="../assets/img/2020-08-10-PR4_pic/image-20200811154946762.png" alt="image-20200811154946762" style="zoom:80%;" /></p>
+
+        <p><strong>结果分析</strong></p>
+
+        <ul>
+          <li>
+            <p>将现有双流法2s-AGCN的时序卷积模块替换为本文的方法，作为基线，以便后续对比</p>
+          </li>
+          <li>
+            <p>仅使用 Factorized Pathway，模型性能提升，<strong>验证了解构策略的有效性</strong> (k-邻接矩阵)</p>
+
+            <blockquote>
+              <p>注意到，<strong>Factorized Pathway</strong> 采用<strong>时空分离</strong>的特征提取方式，因此存在性能瓶颈</p>
+            </blockquote>
+          </li>
+          <li>
+            <p>加入MS-G3D后，性能进一步提升，<strong>验证了G3D对时空融合特征提取的有效性</strong></p>
+          </li>
+          <li>
+            <p>后续两部分对比了不同参数组合的影响，与前面对 $\tau$ 与 $d$ 的分析一致，不再赘述</p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+
+
+<span class="post-date">
+  Written on
+  
+  August
+  10th,
+  2020
+  by
+  
+    mettyz
+  
+</span>
+
+<!-- <div class="post-date">Feel free to share!</div>
+  <div class="sharing-icons">
+    <a href="https://twitter.com/intent/tweet?text=Paper Reading Record 4&amp;url=/PR4.html" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=/PR4.html&amp;title=Paper Reading Record 4" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=/PR4.html" target="_blank"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
+  </div>
+</div>
+ -->
+
+<!--<div class="related">
+  <h1 >You may also enjoy:</h1>
+  
+  <ul class="related-posts">
+    
+  </ul>
+</div>
+ -->
+
+
+
+    </div>
+
+    <footer class="footer">
+  
+  
+  
+    <a href="https://www.github.com/mettyz" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="mailto:1243049625@qq.com" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+  
+
+  
+  
+    <a href="/feed.xml"><i class="fa fa-rss-square" aria-hidden="true"></i></a>
+  
+
+  <div class="post-date"><a href="/menu/about.html">MettyZ's Blog | Seize the day</a></div>
+</footer>
+
+  </div>
+
+</body>
+</html>
