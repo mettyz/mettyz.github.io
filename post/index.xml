@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts | My Blog</title>
+    <title>Posts | MettyZ&#39;s Blog</title>
     <link>https://mettyz.github.io/post/</link>
       <atom:link href="https://mettyz.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 12 Jul 2019 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>zh-cn</language><copyright>©2020</copyright><lastBuildDate>Fri, 12 Jul 2019 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://mettyz.github.io/images/icon_hu4cd47053c7383f5b63ef849109a6672f_377807_512x512_fill_lanczos_center_2.png</url>
       <title>Posts</title>
@@ -320,7 +320,7 @@ date: 2019-09-01
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       <guid>https://mettyz.github.io/post/getting-started/</guid>
       <description>&lt;p&gt;&lt;strong&gt;Create a free website with Academic using Markdown, Jupyter, or RStudio. Choose a beautiful color theme and build anything with the Page Builder - over 40 &lt;em&gt;widgets&lt;/em&gt;, &lt;em&gt;themes&lt;/em&gt;, and &lt;em&gt;language packs&lt;/em&gt; included!&lt;/strong&gt;&lt;/p&gt;
-&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;h2&gt;目录&lt;/h2&gt;
 &lt;nav id=&#34;TableOfContents&#34;&gt;
   &lt;ul&gt;
     &lt;li&gt;&lt;a href=&#34;#themes&#34;&gt;Themes&lt;/a&gt;&lt;/li&gt;
