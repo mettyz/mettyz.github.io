@@ -1,0 +1,18 @@
+{
+  "name": "Chinese website title...",
+  "short_name": "Chinese website title...",
+  "lang": "zh-cn",
+  "theme_color": "#2962ff",
+  "background_color": "#2962ff",
+  "icons": [{
+    "src": "/images/icon_hu4cd47053c7383f5b63ef849109a6672f_377807_192x192_fill_lanczos_center_2.png",
+    "sizes": "192x192",
+    "type": "image/png"
+    }, {
+    "src": "/images/icon_hu4cd47053c7383f5b63ef849109a6672f_377807_512x512_fill_lanczos_center_2.png",
+    "sizes": "512x512",
+    "type": "image/png"
+     }],
+  "display": "standalone",
+  "start_url": "/zh/?utm_source=web_app_manifest"
+}
